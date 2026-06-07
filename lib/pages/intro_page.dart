@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:roadly/componets/button.dart';
+import 'package:roadly/assets/themes/colors.dart';
 
 class IntroPage extends StatelessWidget {
   const IntroPage({super.key});
@@ -8,7 +8,7 @@ class IntroPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 138, 60, 55),
+      backgroundColor: primaryColor,
       body: Padding(
         padding: const EdgeInsets.all(25.0),
         child: Column(
@@ -19,7 +19,8 @@ class IntroPage extends StatelessWidget {
             //app name
             Text(
               "ROADLY",
-              style: GoogleFonts.dmSerifDisplay(
+              style: const TextStyle(
+                fontFamily: 'Serif',
                 fontSize: 28,
                 color: Colors.white,
               ),
@@ -38,9 +39,10 @@ class IntroPage extends StatelessWidget {
             //title
             Text(
               "L'APP DE REFERENCE",
-              style: GoogleFonts.dmSerifDisplay(
+              style: const TextStyle(
                 fontSize: 44,
                 color: Colors.white,
+                fontFamily: 'Serif',
               ),
             ),
 
@@ -48,12 +50,12 @@ class IntroPage extends StatelessWidget {
 
             //subtitle
             Text(
-              " Utilisez notre outil de calcul simple et intuitif pour faciliter le dimensionnement de toutes vos structures en travaux publics.",
+              "Utilisez notre outil de calcul simple et intuitif pour faciliter le dimensionnement de toutes vos structures en travaux publics.",
               style: TextStyle(
                 color: Colors.grey[200],
                 height: 2,
               ),
-              textAlign: TextAlign.start,
+              textAlign: TextAlign.left,
             ),
 
             SizedBox(height: 25,),
