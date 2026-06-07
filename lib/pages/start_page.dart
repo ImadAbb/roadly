@@ -11,12 +11,17 @@ class StartPage extends StatefulWidget {
 }
 
 class _StartPageState extends State<StartPage> {
-
   List modulesList = [
     Modules(name: "Route", lastUpdate: "7 Juin", icon: Icons.roundabout_left),
     Modules(name: "Hydraulique", lastUpdate: "7 Juin", icon: Icons.water_drop),
-    Modules(name: "Structure Métalique", lastUpdate: "7 Juin", icon: Icons.iron)
+    Modules(
+      name: "Structure Métalique",
+      lastUpdate: "7 Juin",
+      icon: Icons.iron,
+    ),
   ];
+
+  double scrollOffset = 0.0;
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +73,9 @@ class _StartPageState extends State<StartPage> {
 
                     Row(
                       children: [
-                        MyButton(text: 'Afficher les crédits', onTap: () {}),
+                        MyButton(text: 'Afficher les crédits', onTap: () {
+                          Navigator.pushNamed(context, '/creditspage');
+                        }),
                       ],
                     ),
                   ],
@@ -83,6 +90,7 @@ class _StartPageState extends State<StartPage> {
                   fit: BoxFit.cover,
                   cacheHeight: 200,
                   cacheWidth: 200,
+                  color: Colors.grey[800],
                 ),
               ],
             ),
@@ -114,7 +122,8 @@ class _StartPageState extends State<StartPage> {
 
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 25.0),
-            child: Text("Choisissez votre structure:",
+            child: Text(
+              "Choisissez votre structure:",
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
@@ -127,10 +136,44 @@ class _StartPageState extends State<StartPage> {
 
           Expanded(
             child: ListView.builder(
+              scrollDirection: Axis.horizontal,
               itemCount: modulesList.length,
               itemBuilder: (context, index) {
                 return ModulesTile(modules: modulesList[index]);
               },
+            ),
+          ),
+
+          SizedBox(height: 10),
+
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: Container(
+              height: 80,
+              decoration: BoxDecoration(
+                color: Color.fromARGB(255, 184, 65, 41),
+                borderRadius: BorderRadius.circular(20),
+              ),
+
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text(
+                    "Voir les structures enregistrés",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey[900],
+                    ),
+                  ),
+              
+                  Icon(
+                    Icons.save,
+                    size: 30,
+                    color: Colors.grey[800],
+                  )
+                ],
+              ),
             ),
           ),
         ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:roadly/pages/credits_page.dart';
 import 'package:roadly/pages/intro_page.dart';
 import 'package:roadly/pages/start_page.dart';
 
@@ -17,6 +18,7 @@ class MainApp extends StatelessWidget {
       routes: {
         '/instropage': (context) => const IntroPage(),
         '/startpage': (context) => const StartPage(),
+        '/creditspage':(context) => const CreditsPage(),
       },
     );
   }
