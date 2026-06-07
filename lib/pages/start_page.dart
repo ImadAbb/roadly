@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:roadly/assets/themes/colors.dart';
 import 'package:roadly/componets/button.dart';
 import 'package:roadly/componets/modules.dart';
 import 'package:roadly/componets/modules_tile.dart';
@@ -49,7 +50,12 @@ class _StartPageState extends State<StartPage> {
           //AppInfo & crédits
           Container(
             decoration: BoxDecoration(
-              color: Color.fromARGB(255, 138, 60, 55),
+              gradient: LinearGradient(
+                colors: [
+                  Color.fromARGB(255, 229, 57, 53), // Rouge vif (Red 600)
+                  Color.fromARGB(255, 191, 54, 12), // Deep Orange 700
+                ],
+              ),
               borderRadius: BorderRadius.circular(20),
             ),
             margin: const EdgeInsets.symmetric(horizontal: 25),
@@ -73,9 +79,12 @@ class _StartPageState extends State<StartPage> {
 
                     Row(
                       children: [
-                        MyButton(text: 'Afficher les crédits', onTap: () {
-                          Navigator.pushNamed(context, '/creditspage');
-                        }),
+                        MyButton(
+                          text: 'Afficher les crédits',
+                          onTap: () {
+                            Navigator.pushNamed(context, '/creditspage');
+                          },
+                        ),
                       ],
                     ),
                   ],
@@ -90,7 +99,7 @@ class _StartPageState extends State<StartPage> {
                   fit: BoxFit.cover,
                   cacheHeight: 200,
                   cacheWidth: 200,
-                  color: Colors.grey[800],
+                  color: Colors.black,
                 ),
               ],
             ),
@@ -151,7 +160,12 @@ class _StartPageState extends State<StartPage> {
             child: Container(
               height: 80,
               decoration: BoxDecoration(
-                color: Color.fromARGB(255, 184, 65, 41),
+                gradient: LinearGradient(
+                  colors: [
+                    Color.fromARGB(255, 229, 57, 53), // Rouge vif (Red 600)
+                    Color.fromARGB(255, 191, 54, 12), // Deep Orange 700
+                  ],
+                ),
                 borderRadius: BorderRadius.circular(20),
               ),
 
@@ -159,19 +173,13 @@ class _StartPageState extends State<StartPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Text(
-                    "Voir les structures enregistrés",
+                    "Voir tous ce que vous pouvez faire  👀",
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: Colors.grey[900],
+                      color: Colors.grey[300],
                     ),
                   ),
-              
-                  Icon(
-                    Icons.save,
-                    size: 30,
-                    color: Colors.grey[800],
-                  )
                 ],
               ),
             ),
