@@ -50,6 +50,7 @@ class _StartPageState extends State<StartPage> {
             margin: const EdgeInsets.symmetric(horizontal: 25),
             padding: const EdgeInsets.all(25),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -73,12 +74,15 @@ class _StartPageState extends State<StartPage> {
                   ],
                 ),
 
-                const SizedBox(width: 20),
+                const SizedBox(width: 10),
 
                 Image.asset(
                   'lib/assets/images/USTHB2.png',
-                  height: 99,
-                  fit: BoxFit.contain,
+                  height: 100,
+                  width: 93,
+                  fit: BoxFit.cover,
+                  cacheHeight: 200,
+                  cacheWidth: 200,
                 ),
               ],
             ),
