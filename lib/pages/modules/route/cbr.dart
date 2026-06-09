@@ -1,8 +1,12 @@
-﻿import 'dart:math';
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'dart:math';
+
+import 'package:roadly/componets/button.dart';
 
 class CBRRoute extends StatefulWidget {
-  const CBRRoute({super.key});
+  final ScrollController scrollController;
+
+  const CBRRoute({super.key, required this.scrollController});
 
   @override
   State<CBRRoute> createState() => _CBRRouteState();
@@ -17,6 +21,12 @@ class _CBRRouteState extends State<CBRRoute> {
       results = validatedResults;
       _selectedIndex = 1;
     });
+
+    widget.scrollController.animateTo(
+      0,
+      duration: const Duration(milliseconds: 400),
+      curve: Curves.easeOut,
+    );
   }
 
   @override
@@ -27,18 +37,21 @@ class _CBRRouteState extends State<CBRRoute> {
           child: IndexedStack(
             index: _selectedIndex,
             children: [
-              SingleChildScrollView(
-                child: CBR(onValidated: _onValidated),
-              ),
-              ResultPage(results: results),
+              SingleChildScrollView(child: CBR(onValidated: _onValidated)),
+              SingleChildScrollView(child: ResultPage(results: results)),
             ],
           ),
         ),
         BottomNavigationBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
           currentIndex: _selectedIndex,
-          onTap: (index) => setState(() => _selectedIndex = index),
+          onTap: (index) {
+            setState(() => _selectedIndex = index);
+            widget.scrollController.animateTo(
+              0,
+              duration: const Duration(milliseconds: 400),
+              curve: Curves.easeOut,
+            );
+          },
           items: const [
             BottomNavigationBarItem(
               icon: Icon(Icons.edit),
@@ -237,22 +250,25 @@ class _CBRState extends State<CBR> {
         Center(
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: const Color.fromARGB(255, 191, 54, 12), // couleur du bouton
+              backgroundColor: const Color.fromARGB(
+                255,
+                191,
+                54,
+                12,
+              ), // couleur du bouton
               foregroundColor: Colors.grey[200], // couleur du texte
               padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-              textStyle: const TextStyle(
-                fontSize: 15,
-                
-              ),
+              textStyle: const TextStyle(fontSize: 15),
             ),
             onPressed: () {
-              final valAnneeComptage = anneeComptage.text;
-              final valTjmaMin = tjmaMin.text;
-              final valPl = pl.text;
-              final valAnneeMiseEnService = anneeMiseEnService.text;
-              final valTauxAccroissement = tauxAccroissement.text;
-              final valICBR = iCBR.text;
-              final valDureeDeVie = dureeDeVie.text;
+              final valAnneeComptage = cleanInput(anneeComptage.text);
+              final valTjmaMin = cleanInput(tjmaMin.text);
+              final valPl = cleanInput(pl.text);
+              final valAnneeMiseEnService = cleanInput(anneeMiseEnService.text);
+              final valTauxAccroissement = cleanInput(tauxAccroissement.text);
+              final valICBR = cleanInput(iCBR.text);
+              final valDureeDeVie = cleanInput(dureeDeVie.text);
+
               final valSelectedCode = selectedCode;
 
               // Vérifier que tous les champs sont remplis
@@ -287,8 +303,7 @@ class _CBRState extends State<CBR> {
               }
 
               // Vérifier que tous les champs sont numériques
-              final numericRegex = RegExp(r'^[0-9]+(.[0-9]+)?$');
-
+              final numericRegex = RegExp(r'^[0-9]+(\.[0-9]+)?$');
 
               if (!numericRegex.hasMatch(valAnneeComptage) ||
                   !numericRegex.hasMatch(valTjmaMin) ||
@@ -328,11 +343,7 @@ class _CBRState extends State<CBR> {
                     children: [
                       const Icon(Icons.check_circle, color: Colors.white),
                       const SizedBox(width: 10),
-                      Expanded(
-                        child: Text(
-                          "SAUVGARDER ✅",
-                        ),
-                      ),
+                      Expanded(child: Text("SAUVGARDER ✅")),
                     ],
                   ),
                   backgroundColor: Colors.green,
@@ -348,18 +359,33 @@ class _CBRState extends State<CBR> {
               final parsedTjmaMin = double.parse(valTjmaMin);
               final parsedPl = double.parse(valPl);
               final parsedAnneeMiseEnService = int.parse(valAnneeMiseEnService);
-              final parsedTauxAccroissement = double.parse(valTauxAccroissement);
+              final parsedTauxAccroissement = double.parse(
+                valTauxAccroissement,
+              );
               final parsedICBR = double.parse(valICBR);
               final parsedDureeDeVie = int.parse(valDureeDeVie);
 
               final codeChaussee = optionsCodes[selectedValue!] ?? 0.0;
-              final dureeDeVieTotal = (parsedDureeDeVie + (parsedAnneeMiseEnService - parsedAnneeComptage));
+              final dureeDeVieTotal =
+                  (parsedDureeDeVie +
+                  (parsedAnneeMiseEnService - parsedAnneeComptage));
               final anneeFinDeVie = parsedAnneeMiseEnService + parsedDureeDeVie;
-              final tjmaFinDeVie = parsedTjmaMin * pow((1 + parsedTauxAccroissement/100), dureeDeVieTotal);
-              final tjmaZero = parsedTjmaMin * pow((1 + parsedTauxAccroissement/100), (parsedAnneeMiseEnService - parsedAnneeComptage));
-              final nombrePL = tjmaFinDeVie * (parsedPl/100);
+              final tjmaFinDeVie =
+                  parsedTjmaMin *
+                  pow((1 + parsedTauxAccroissement / 100), dureeDeVieTotal);
+              final tjmaZero =
+                  parsedTjmaMin *
+                  pow(
+                    (1 + parsedTauxAccroissement / 100),
+                    (parsedAnneeMiseEnService - parsedAnneeComptage),
+                  );
+              final nombrePL = tjmaFinDeVie * (parsedPl / 100);
               final traficPoidsLourds = nombrePL * codeChaussee;
-              final eppTotalGnt = (100 + sqrt(13 / 2) * (75 + 50 * (log(traficPoidsLourds / 10) / ln10))) / (parsedICBR + 5);
+              final eppTotalGnt =
+                  (100 +
+                      sqrt(13 / 2) *
+                          (75 + 50 * (log(traficPoidsLourds / 10) / ln10))) /
+                  (parsedICBR + 5);
 
               final results = CBRResults(
                 pavementType: selectedValue!, //
@@ -429,35 +455,55 @@ class ResultPage extends StatelessWidget {
   Widget build(BuildContext context) {
     if (results == null) {
       return const Center(
-        child: Text(
-          'Aucun résultat calculé',
-          style: TextStyle(fontSize: 18),
-        ),
+        child: Text('Aucun résultat calculé', style: TextStyle(fontSize: 18)),
       );
     }
 
     final result = results!;
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 20.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('Résultats', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+          const Text(
+            'Résultats',
+            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+          ),
           const SizedBox(height: 24),
           ResultRow(label: 'Type de voies', value: result.pavementType),
-          ResultRow(label: 'Répartition transversal\ndu trafic', value: result.codeChaussee.toStringAsFixed(2)),
-          ResultRow(label: 'Année de fin de vie', value: result.anneeFinDeVie.toString()),
-          ResultRow(label: 'TJMA mise en service', value: result.tjmaZero.toStringAsFixed(1), unit: 'V/J'),
-          ResultRow(label: 'TJMA fin de vie', value: result.tjmaMin.toStringAsFixed(1), unit: 'V/J'),
-          ResultRow(label: 'Trafic poids lourds', value: result.traficPoidsLourds.toStringAsFixed(1), unit: 'PL/J'),
-          ResultRow(label: 'Épaisseurs équivalente', value: result.eppTotalGnt.toStringAsFixed(2), unit: 'cm'),
+          ResultRow(
+            label: 'Répartition transversal\ndu trafic',
+            value: result.codeChaussee.toStringAsFixed(2),
+          ),
+          ResultRow(
+            label: 'Année de fin de vie',
+            value: result.anneeFinDeVie.toString(),
+          ),
+          ResultRow(
+            label: 'TJMA mise en service',
+            value: result.tjmaZero.toStringAsFixed(1),
+            unit: 'V/J',
+          ),
+          ResultRow(
+            label: 'TJMA fin de vie',
+            value: result.tjmaMin.toStringAsFixed(1),
+            unit: 'V/J',
+          ),
+          ResultRow(
+            label: 'Trafic poids lourds',
+            value: result.traficPoidsLourds.toStringAsFixed(1),
+            unit: 'PL/J',
+          ),
+          ResultRow(
+            label: 'Épaisseurs équivalente',
+            value: result.eppTotalGnt.toStringAsFixed(2),
+            unit: 'cm',
+          ),
           Text(
             "La répartition des couches sera ajouté plus tard.",
-            style: TextStyle(
-              fontWeight: FontWeight.bold
-            ),
-          )
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
 
           // ... autres lignes ...
         ],

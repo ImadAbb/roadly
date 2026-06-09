@@ -117,3 +117,7 @@ class MethodButton extends StatelessWidget {
     );
   }
 }
+
+String cleanInput(String input) {
+    return input.replaceAll(',', '.').replaceAll(' ', '');
+  }
