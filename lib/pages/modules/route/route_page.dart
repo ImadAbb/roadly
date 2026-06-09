@@ -16,26 +16,29 @@ class _ModuleRouteState extends State<ModuleRoute> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blueGrey[200],
+        backgroundColor: Colors.blueGrey[100],
         elevation: 0,
+        toolbarHeight: 60,
         title: Text(
-          "ROUTE $selectedMethod",
+          selectedMethod != null ? "ROUTE $selectedMethod" : "ROUTE",
           style: TextStyle(fontFamily: 'Serif', fontSize: 28),
         ),
         centerTitle: true,
       ),
       body: Padding(
-        padding: const EdgeInsets.only(right: 25, left: 25),
+        padding: const EdgeInsets.only(right: 15, left: 15, top: 15),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              "Choisissez la méthode à utiliser :",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            Center(
+              child: const Text(
+                "Choisissez la méthode à utiliser :",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 15),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 MethodButton(
                   method: "CBR",
@@ -45,7 +48,8 @@ class _ModuleRouteState extends State<ModuleRoute> {
                 MethodButton(
                   method: "Asphalt Institu",
                   isSelected: selectedMethod == "Asphalt Institu",
-                  onTap: () => setState(() => selectedMethod = "Asphalt Institu"),
+                  onTap: () =>
+                      setState(() => selectedMethod = "Asphalt Institu"),
                 ),
                 MethodButton(
                   method: "CTTP",
@@ -54,7 +58,7 @@ class _ModuleRouteState extends State<ModuleRoute> {
                 ),
               ],
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 15),
             if (selectedMethod != null)
               Expanded(
                 child: _buildMethodContent(selectedMethod!),
@@ -65,8 +69,7 @@ class _ModuleRouteState extends State<ModuleRoute> {
     );
   }
 
-
- Widget _buildMethodContent(String method) {
+  Widget _buildMethodContent(String method) {
     switch (method) {
       case "CBR":
         return const CBRRoute();
@@ -78,7 +81,9 @@ class _ModuleRouteState extends State<ModuleRoute> {
               20,
               (index) => Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8),
-                child: Text("Asphalt Institu - GOTLEK MAZAL YA 7IMAR ${index + 1}"),
+                child: Text(
+                  "Asphalt Institu - GOTLEK MAZAL YA 7IMAR ${index + 1}",
+                ),
               ),
             ),
           ),

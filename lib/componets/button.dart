@@ -99,7 +99,7 @@ class MethodButton extends StatelessWidget {
               : const Color.fromARGB(255, 233, 149, 143), // non sélectionné
           borderRadius: BorderRadius.circular(20),
         ),
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
         child: Row(
           children: [
             Text(

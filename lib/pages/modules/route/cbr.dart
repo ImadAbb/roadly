@@ -35,6 +35,8 @@ class _CBRRouteState extends State<CBRRoute> {
           ),
         ),
         BottomNavigationBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
           currentIndex: _selectedIndex,
           onTap: (index) => setState(() => _selectedIndex = index),
           items: const [
@@ -78,7 +80,7 @@ class _CBRState extends State<CBR> {
   String label4 = "Année De Mise En Sérvice";
   String label5 = "Taux d'accroissement annuel du trafic (%)";
   String label6 = "Indice Portant Californien du sol support (ICBR)";
-  String label7 = "Durée de vie de la chaussée (année)";
+  String label7 = "Durée de vie de la chaussée (années)";
 
   String? selectedValue; // valeur choisie dans le dropdown
 
