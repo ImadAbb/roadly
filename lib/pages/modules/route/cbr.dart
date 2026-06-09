@@ -157,7 +157,7 @@ class _CBRState extends State<CBR> {
 
         TextField(
           controller: anneeComptage,
-          keyboardType: TextInputType.number,
+          keyboardType: const TextInputType.numberWithOptions(decimal: true),
           decoration: InputDecoration(
             labelText: label1,
             border: const OutlineInputBorder(),
@@ -169,7 +169,7 @@ class _CBRState extends State<CBR> {
         // Champ 2 avec focus dynamique
         TextField(
           controller: tjmaMin,
-          keyboardType: TextInputType.number,
+          keyboardType: const TextInputType.numberWithOptions(decimal: true),
           focusNode: _focusNode2,
           decoration: InputDecoration(
             labelText: label2,
@@ -181,7 +181,7 @@ class _CBRState extends State<CBR> {
 
         TextField(
           controller: pl,
-          keyboardType: TextInputType.number,
+          keyboardType: const TextInputType.numberWithOptions(decimal: true),
           decoration: InputDecoration(
             labelText: label3,
             border: const OutlineInputBorder(),
@@ -192,7 +192,7 @@ class _CBRState extends State<CBR> {
 
         TextField(
           controller: anneeMiseEnService,
-          keyboardType: TextInputType.number,
+          keyboardType: const TextInputType.numberWithOptions(decimal: true),
           decoration: InputDecoration(
             labelText: label4,
             border: const OutlineInputBorder(),
@@ -203,7 +203,7 @@ class _CBRState extends State<CBR> {
 
         TextField(
           controller: tauxAccroissement,
-          keyboardType: TextInputType.number,
+          keyboardType: const TextInputType.numberWithOptions(decimal: true),
           decoration: InputDecoration(
             labelText: label5,
             border: const OutlineInputBorder(),
@@ -214,7 +214,7 @@ class _CBRState extends State<CBR> {
 
         TextField(
           controller: iCBR,
-          keyboardType: TextInputType.number,
+          keyboardType: const TextInputType.numberWithOptions(decimal: true),
           decoration: InputDecoration(
             labelText: label6,
             border: const OutlineInputBorder(),
@@ -225,7 +225,7 @@ class _CBRState extends State<CBR> {
 
         TextField(
           controller: dureeDeVie,
-          keyboardType: TextInputType.number,
+          keyboardType: const TextInputType.numberWithOptions(decimal: true),
           decoration: InputDecoration(
             labelText: label7,
             border: const OutlineInputBorder(),
