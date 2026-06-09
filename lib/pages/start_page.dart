@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:roadly/assets/themes/colors.dart';
 import 'package:roadly/componets/button.dart';
 import 'package:roadly/componets/modules.dart';
 import 'package:roadly/componets/modules_tile.dart';
+import 'package:roadly/pages/modules/hydraulique_page.dart';
+import 'package:roadly/pages/modules/route/route_page.dart';
+import 'package:roadly/pages/modules/strmtc_page.dart';
 
 class StartPage extends StatefulWidget {
   const StartPage({super.key});
@@ -13,12 +15,23 @@ class StartPage extends StatefulWidget {
 
 class _StartPageState extends State<StartPage> {
   List modulesList = [
-    Modules(name: "Route", lastUpdate: "7 Juin", icon: Icons.roundabout_left),
-    Modules(name: "Hydraulique", lastUpdate: "7 Juin", icon: Icons.water_drop),
+    Modules(
+      name: "Route", 
+      lastUpdate: "7 Juin", 
+      icon: Icons.roundabout_left,
+      page: const ModuleRoute(),
+    ),
+    Modules(
+      name: "Hydraulique", 
+      lastUpdate: "7 Juin", 
+      icon: Icons.water_drop,
+      page: ModuleHydraulique(),
+    ),
     Modules(
       name: "Structure Métalique",
       lastUpdate: "7 Juin",
       icon: Icons.iron,
+      page: ModuleStructureMetallique()
     ),
   ];
 
@@ -117,6 +130,7 @@ class _StartPageState extends State<StartPage> {
                   ),
                   borderRadius: BorderRadius.circular(20),
                 ),
+                hintText: "Rechercher ...",
                 focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(
                     color: const Color.fromARGB(255, 255, 69, 69),
@@ -148,8 +162,16 @@ class _StartPageState extends State<StartPage> {
               scrollDirection: Axis.horizontal,
               itemCount: modulesList.length,
               itemBuilder: (context, index) {
-                return ModulesTile(modules: modulesList[index]);
-              },
+                return ModulesTile(
+                  modules: modulesList[index], 
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => modulesList[index].page),
+                    );
+                  }
+                );
+              }
             ),
           ),
 
