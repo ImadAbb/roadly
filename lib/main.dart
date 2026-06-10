@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:roadly/pages/credits_page.dart';
+import 'package:roadly/pages/allyoucando/credits_page.dart';
 import 'package:roadly/pages/intro_page.dart';
 import 'package:roadly/pages/start_page.dart';
 

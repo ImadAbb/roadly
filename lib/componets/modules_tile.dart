@@ -12,7 +12,12 @@ class ModulesTile extends StatelessWidget {
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.grey[200],
+          gradient: LinearGradient(
+            colors: [
+              Color.fromARGB(255, 53, 103, 229),
+              Color.fromARGB(255, 12, 137, 191),
+            ],
+          ),
           borderRadius: BorderRadius.circular(20),
         ),
         margin: const EdgeInsets.only(left: 25, right: 25),

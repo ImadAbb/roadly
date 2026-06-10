@@ -7,7 +7,7 @@ class CreditsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor:Colors.grey[200],
         elevation: 0,
         title: Text(
           'Crédits & Informations',

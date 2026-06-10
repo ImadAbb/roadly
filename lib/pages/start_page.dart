@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:roadly/componets/button.dart';
 import 'package:roadly/componets/modules.dart';
 import 'package:roadly/componets/modules_tile.dart';
-import 'package:roadly/pages/modules/hydraulique_page.dart';
+import 'package:roadly/pages/allyoucando/allyou/introduction.dart';
+import 'package:roadly/pages/modules/hydraulique/hydraulique_page.dart';
 import 'package:roadly/pages/modules/route/route_page.dart';
-import 'package:roadly/pages/modules/strmtc_page.dart';
+import 'package:roadly/pages/modules/structure/strmtc_page.dart';
 
 class StartPage extends StatefulWidget {
   const StartPage({super.key});
@@ -17,7 +18,7 @@ class _StartPageState extends State<StartPage> {
   List modulesList = [
     Modules(
       name: "Route", 
-      lastUpdate: "7 Juin", 
+      lastUpdate: "9 Juin", 
       icon: Icons.roundabout_left,
       page: const ModuleRoute(),
     ),
@@ -40,7 +41,7 @@ class _StartPageState extends State<StartPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+      backgroundColor: Colors.blueGrey[100],
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -65,8 +66,8 @@ class _StartPageState extends State<StartPage> {
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  Color.fromARGB(255, 229, 57, 53), // Rouge vif (Red 600)
-                  Color.fromARGB(255, 191, 54, 12), // Deep Orange 700
+                  Color.fromARGB(255, 21, 115, 192), // Rouge vif (Red 600)
+                    Color.fromARGB(255, 38, 118, 255), // Deep Orange 700
                 ],
               ),
               borderRadius: BorderRadius.circular(20),
@@ -103,12 +104,11 @@ class _StartPageState extends State<StartPage> {
                   ],
                 ),
 
-                const SizedBox(width: 10),
 
                 Image.asset(
                   'lib/assets/images/USTHB2.png',
-                  height: 100,
-                  width: 93,
+                  height: 80,
+                  width: 80,
                   fit: BoxFit.cover,
                   cacheHeight: 200,
                   cacheWidth: 200,
@@ -184,25 +184,35 @@ class _StartPageState extends State<StartPage> {
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    Color.fromARGB(255, 229, 57, 53), // Rouge vif (Red 600)
-                    Color.fromARGB(255, 191, 54, 12), // Deep Orange 700
+                    Color.fromARGB(255, 21, 115, 192), // Rouge vif (Red 600)
+                    Color.fromARGB(255, 38, 85, 255), // Deep Orange 700
                   ],
                 ),
                 borderRadius: BorderRadius.circular(20),
               ),
 
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Text(
-                    "Voir tous ce que vous pouvez faire  👀",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.grey[300],
+              child: GestureDetector(
+                onTap: (){
+                  Navigator.push(
+                    context, 
+                    MaterialPageRoute(
+                      builder: (context) => Introduction(),
                     ),
-                  ),
-                ],
+                  );
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text(
+                      "Voir tous ce que vous pouvez faire  👀",
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.grey[300],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
