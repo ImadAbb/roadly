@@ -1,6 +1,5 @@
 ﻿import 'package:flutter/material.dart';
 import 'dart:math';
-
 import 'package:roadly/componets/button.dart';
 
 class CBRRoute extends StatefulWidget {
@@ -86,7 +85,6 @@ class _CBRState extends State<CBR> {
   final TextEditingController iCBR = TextEditingController();
   final TextEditingController dureeDeVie = TextEditingController();
 
-  late FocusNode _focusNode2;
   String label1 = "Année De Comptage";
   String label2 = "TJMA à l'année de comptage";
   String label3 = "Proportion de poids Lourds (%)";
@@ -111,15 +109,21 @@ class _CBRState extends State<CBR> {
     "Chaussée bidirectionnelle à 3 voies": 0.5,
   };
 
-  double selectedCode = 0;
+
+  final FocusNode focusAnneeComptage = FocusNode();
+  final FocusNode focusTjmaMin = FocusNode();
+  final FocusNode focusPl = FocusNode();
+  final FocusNode focusAnneeMiseEnService = FocusNode();
+  final FocusNode focusTauxAccroissement = FocusNode();
+  final FocusNode focusICBR = FocusNode();
+  final FocusNode focusDureeDeVie = FocusNode();
 
   @override
   void initState() {
     super.initState();
-    _focusNode2 = FocusNode();
-    _focusNode2.addListener(() {
+    focusTjmaMin.addListener(() {
       setState(() {
-        if (_focusNode2.hasFocus) {
+        if (focusTjmaMin.hasFocus) {
           label2 = "Trafic Moyen Journalier Annuel à l'année de comptage";
         } else {
           label2 = "TJMA à l'année de comptage";
@@ -130,7 +134,21 @@ class _CBRState extends State<CBR> {
 
   @override
   void dispose() {
-    _focusNode2.dispose();
+        // Libère les FocusNode
+    focusAnneeComptage.dispose();
+    focusTjmaMin.dispose();
+    focusPl.dispose();
+    focusAnneeMiseEnService.dispose();
+    focusTauxAccroissement.dispose();
+    focusICBR.dispose();
+    focusDureeDeVie.dispose();
+    anneeComptage.dispose();
+    tjmaMin.dispose();
+    pl.dispose();
+    anneeMiseEnService.dispose();
+    tauxAccroissement.dispose();
+    iCBR.dispose();
+    dureeDeVie.dispose();
     super.dispose();
   }
 
@@ -154,14 +172,13 @@ class _CBRState extends State<CBR> {
             labelText: "Type de voies",
             border: OutlineInputBorder(),
           ),
-          initialValue: selectedValue, // valeur initiale
+          initialValue: selectedValue, // valeur actuelle
           items: options.map((String value) {
             return DropdownMenuItem<String>(value: value, child: Text(value));
           }).toList(),
           onChanged: (newValue) {
             setState(() {
               selectedValue = newValue;
-              selectedCode = optionsCodes[newValue] ?? 0.00;
             });
           },
         ),
@@ -170,7 +187,12 @@ class _CBRState extends State<CBR> {
 
         TextField(
           controller: anneeComptage,
+          focusNode: focusAnneeComptage,
           keyboardType: const TextInputType.numberWithOptions(decimal: true),
+          textInputAction: TextInputAction.next,
+          onSubmitted: (_) {
+            FocusScope.of(context).requestFocus(focusTjmaMin);
+          },
           decoration: InputDecoration(
             labelText: label1,
             border: const OutlineInputBorder(),
@@ -183,7 +205,10 @@ class _CBRState extends State<CBR> {
         TextField(
           controller: tjmaMin,
           keyboardType: const TextInputType.numberWithOptions(decimal: true),
-          focusNode: _focusNode2,
+          focusNode: focusTjmaMin,
+          onSubmitted: (_) {
+            FocusScope.of(context).requestFocus(focusPl);
+          },
           decoration: InputDecoration(
             labelText: label2,
             border: const OutlineInputBorder(),
@@ -195,6 +220,10 @@ class _CBRState extends State<CBR> {
         TextField(
           controller: pl,
           keyboardType: const TextInputType.numberWithOptions(decimal: true),
+          focusNode: focusPl,
+          onSubmitted: (_) {
+            FocusScope.of(context).requestFocus(focusAnneeMiseEnService);
+          },
           decoration: InputDecoration(
             labelText: label3,
             border: const OutlineInputBorder(),
@@ -206,6 +235,10 @@ class _CBRState extends State<CBR> {
         TextField(
           controller: anneeMiseEnService,
           keyboardType: const TextInputType.numberWithOptions(decimal: true),
+          focusNode: focusAnneeMiseEnService,
+          onSubmitted: (_) {
+            FocusScope.of(context).requestFocus(focusTauxAccroissement);
+          },
           decoration: InputDecoration(
             labelText: label4,
             border: const OutlineInputBorder(),
@@ -217,6 +250,10 @@ class _CBRState extends State<CBR> {
         TextField(
           controller: tauxAccroissement,
           keyboardType: const TextInputType.numberWithOptions(decimal: true),
+          focusNode: focusTauxAccroissement,
+          onSubmitted: (_) {
+            FocusScope.of(context).requestFocus(focusICBR);
+          },
           decoration: InputDecoration(
             labelText: label5,
             border: const OutlineInputBorder(),
@@ -228,6 +265,10 @@ class _CBRState extends State<CBR> {
         TextField(
           controller: iCBR,
           keyboardType: const TextInputType.numberWithOptions(decimal: true),
+          focusNode: focusICBR,
+          onSubmitted: (_) {
+            FocusScope.of(context).requestFocus(focusDureeDeVie);
+          },
           decoration: InputDecoration(
             labelText: label6,
             border: const OutlineInputBorder(),
@@ -239,6 +280,10 @@ class _CBRState extends State<CBR> {
         TextField(
           controller: dureeDeVie,
           keyboardType: const TextInputType.numberWithOptions(decimal: true),
+          focusNode: focusDureeDeVie,
+          onSubmitted: (_) {
+            FocusScope.of(context).unfocus();
+          },
           decoration: InputDecoration(
             labelText: label7,
             border: const OutlineInputBorder(),
@@ -269,11 +314,9 @@ class _CBRState extends State<CBR> {
               final valICBR = cleanInput(iCBR.text);
               final valDureeDeVie = cleanInput(dureeDeVie.text);
 
-              final valSelectedCode = selectedCode;
-
-              // Vérifier que tous les champs sont remplis
-              if (valAnneeComptage.isEmpty ||
-                  valSelectedCode == 0 ||
+                // Vérifier que tous les champs sont remplis
+                if (valAnneeComptage.isEmpty ||
+                  selectedValue == null ||
                   valTjmaMin.isEmpty ||
                   valPl.isEmpty ||
                   valAnneeMiseEnService.isEmpty ||
@@ -355,15 +398,69 @@ class _CBRState extends State<CBR> {
                 ),
               );
 
-              final parsedAnneeComptage = int.parse(valAnneeComptage);
-              final parsedTjmaMin = double.parse(valTjmaMin);
-              final parsedPl = double.parse(valPl);
-              final parsedAnneeMiseEnService = int.parse(valAnneeMiseEnService);
-              final parsedTauxAccroissement = double.parse(
-                valTauxAccroissement,
-              );
-              final parsedICBR = double.parse(valICBR);
-              final parsedDureeDeVie = int.parse(valDureeDeVie);
+              final parsedAnneeComptage = int.tryParse(valAnneeComptage);
+              final parsedTjmaMin = double.tryParse(valTjmaMin);
+              final parsedPl = double.tryParse(valPl);
+              final parsedAnneeMiseEnService = int.tryParse(valAnneeMiseEnService);
+              final parsedTauxAccroissement = double.tryParse(valTauxAccroissement);
+              final parsedICBR = double.tryParse(valICBR);
+              final parsedDureeDeVie = int.tryParse(valDureeDeVie);
+
+              if (parsedAnneeComptage == null ||
+                  parsedTjmaMin == null ||
+                  parsedPl == null ||
+                  parsedAnneeMiseEnService == null ||
+                  parsedTauxAccroissement == null ||
+                  parsedICBR == null ||
+                  parsedDureeDeVie == null) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Row(
+                      children: const [
+                        Icon(Icons.error, color: Colors.white),
+                        SizedBox(width: 10),
+                        Expanded(
+                          child: Text(
+                            "Les valeurs doivent être des nombres valides",
+                          ),
+                        ),
+                      ],
+                    ),
+                    backgroundColor: Colors.red,
+                    behavior: SnackBarBehavior.floating,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    duration: const Duration(seconds: 3),
+                  ),
+                );
+                return;
+              }
+
+              if (parsedTjmaMin <= 0 || parsedPl <= 0 || parsedDureeDeVie <= 0 || parsedICBR <= 0) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Row(
+                      children: const [
+                        Icon(Icons.error, color: Colors.white),
+                        SizedBox(width: 10),
+                        Expanded(
+                          child: Text(
+                            "Les champs numériques doivent être supérieurs à zéro",
+                          ),
+                        ),
+                      ],
+                    ),
+                    backgroundColor: Colors.red,
+                    behavior: SnackBarBehavior.floating,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    duration: const Duration(seconds: 3),
+                  ),
+                );
+                return;
+              }
 
               final codeChaussee = optionsCodes[selectedValue!] ?? 0.0;
               final dureeDeVieTotal =
@@ -391,6 +488,7 @@ class _CBRState extends State<CBR> {
                 pavementType: selectedValue!, //
                 anneeFinDeVie: anneeFinDeVie, //
                 tjmaMin: parsedTjmaMin, //
+                tjmaFinDeVie: tjmaFinDeVie,
                 tjmaZero: tjmaZero,
                 pl: parsedPl, //
                 anneeMiseEnService: parsedAnneeMiseEnService, //
@@ -418,6 +516,7 @@ class CBRResults {
   final String pavementType;
   final int anneeFinDeVie;
   final double tjmaMin;
+  final double tjmaFinDeVie;
   final double tjmaZero;
   final double pl;
   final int anneeMiseEnService;
@@ -433,6 +532,7 @@ class CBRResults {
     required this.pavementType,
     required this.anneeFinDeVie,
     required this.tjmaMin,
+    required this.tjmaFinDeVie,
     required this.tjmaZero,
     required this.pl,
     required this.anneeMiseEnService,
@@ -487,7 +587,7 @@ class ResultPage extends StatelessWidget {
           ),
           ResultRow(
             label: 'TJMA fin de vie',
-            value: result.tjmaMin.toStringAsFixed(1),
+            value: result.tjmaFinDeVie.toStringAsFixed(1),
             unit: 'V/J',
           ),
           ResultRow(

@@ -67,7 +67,7 @@ class _StartPageState extends State<StartPage> {
               gradient: LinearGradient(
                 colors: [
                   Color.fromARGB(255, 21, 115, 192), // Rouge vif (Red 600)
-                    Color.fromARGB(255, 38, 118, 255), // Deep Orange 700
+                  Color.fromARGB(255, 38, 118, 255), // Deep Orange 700
                 ],
               ),
               borderRadius: BorderRadius.circular(20),
@@ -179,27 +179,26 @@ class _StartPageState extends State<StartPage> {
 
           Padding(
             padding: const EdgeInsets.all(20),
-            child: Container(
-              height: 80,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    Color.fromARGB(255, 21, 115, 192), // Rouge vif (Red 600)
-                    Color.fromARGB(255, 38, 85, 255), // Deep Orange 700
-                  ],
+            child: GestureDetector(
+              onTap: (){
+                Navigator.push(
+                  context, 
+                  MaterialPageRoute(
+                    builder: (context) => Introduction(),
+                  ),
+                );
+              },
+              child: Container(
+                height: 80,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Color.fromARGB(255, 21, 115, 192), // Rouge vif (Red 600)
+                      Color.fromARGB(255, 38, 85, 255), // Deep Orange 700
+                    ],
+                  ),
+                  borderRadius: BorderRadius.circular(20),
                 ),
-                borderRadius: BorderRadius.circular(20),
-              ),
-
-              child: GestureDetector(
-                onTap: (){
-                  Navigator.push(
-                    context, 
-                    MaterialPageRoute(
-                      builder: (context) => Introduction(),
-                    ),
-                  );
-                },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [

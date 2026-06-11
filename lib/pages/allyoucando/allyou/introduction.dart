@@ -38,9 +38,9 @@ class _IntroductionState extends State<Introduction> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 SizedBox(
-                  width: 70,
-                  child: GestureDetector(
-                    onTap: () {
+                  width: 100,
+                  child: TextButton(
+                    onPressed: () {
                       _controller.jumpToPage(2);
                     },
                     child: Text("Passer"),
@@ -50,16 +50,16 @@ class _IntroductionState extends State<Introduction> {
                 SmoothPageIndicator(controller: _controller, count: 3),
 
                 SizedBox(
-                  width: 70, // 👈 largeur fixe
+                  width: 100, // 👈 largeur fixe
                   child: onLastPage
-                      ? GestureDetector(
-                          onTap: () {
+                      ? TextButton(
+                          onPressed: () {
                             Navigator.pop(context);
                           },
                           child: Text("Terminer"),
                         )
-                      : GestureDetector(
-                          onTap: () {
+                      : TextButton(
+                          onPressed: () {
                             _controller.nextPage(
                               duration: Duration(milliseconds: 500),
                               curve: Curves.easeIn,
@@ -71,13 +71,18 @@ class _IntroductionState extends State<Introduction> {
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(10, 25, 10, 10),
-            child: GestureDetector(
-              onTap: () {
-                Navigator.pop(context);
-              },
-              child: Icon(Icons.close, size: 30, color: Colors.white,),
+          SafeArea(
+            child: Align(
+              alignment: Alignment.topLeft,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Icon(Icons.close, size: 35, color: Colors.white,),
+                ),
+              ),
             ),
           ),
         ],
