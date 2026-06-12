@@ -4,6 +4,7 @@ import 'package:roadly/componets/modules.dart';
 import 'package:roadly/componets/modules_tile.dart';
 import 'package:roadly/pages/allyoucando/allyou/introduction.dart';
 import 'package:roadly/pages/modules/hydraulique/hydraulique_page.dart';
+import 'package:roadly/pages/modules/ponts/ponts_main.dart';
 import 'package:roadly/pages/modules/route/route_page.dart';
 import 'package:roadly/pages/modules/structure/strmtc_page.dart';
 
@@ -34,6 +35,12 @@ class _StartPageState extends State<StartPage> {
       icon: Icons.iron,
       page: ModuleStructureMetallique()
     ),
+    Modules(
+      name: "Ponts", 
+      lastUpdate: "12 juin", 
+      icon: Icons.add_road, 
+      page: ModulePonts()
+    )
   ];
 
   double scrollOffset = 0.0;
