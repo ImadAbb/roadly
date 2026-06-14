@@ -44,6 +44,9 @@ class _ModulePontsState extends State<ModulePonts> {
 
   @override
   Widget build(BuildContext context) {
+    // Récupère les marges système (notch, barre de statut, etc.)
+    final safePadding = MediaQuery.of(context).padding;
+
     return Scaffold(
       backgroundColor: Colors.grey[200],
 
@@ -101,11 +104,11 @@ class _ModulePontsState extends State<ModulePonts> {
         ),
       ),
 
-      // ✅ Contenu principal
       body: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 8,
-        ), // 👈 padding latéral
+      padding: EdgeInsets.only(
+        left: safePadding.left > 0 ? 24 : 16,   // plus de marge si notch à gauche
+        right: safePadding.right > 0 ? 24 : 16, // plus de marge si notch à droite
+        ),
         child: Row(
           children: [
             // Panel de contrôle à gauche
