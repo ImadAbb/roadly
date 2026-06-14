@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:roadly/pages/modules/ponts/control_pannel/pannel_view.dart';
 import 'package:roadly/pages/modules/ponts/editeur_de_poutre/structure/classes.dart';
 import 'package:roadly/pages/modules/ponts/editeur_de_poutre/structure/drawing.dart';
+import 'package:roadly/pages/modules/ponts/right_pannel/main_right_pannel.dart';
 
 class ModulePonts extends StatefulWidget {
   const ModulePonts({super.key});
@@ -16,6 +18,12 @@ class _ModulePontsState extends State<ModulePonts> {
   @override
   void initState() {
     super.initState();
+    // Forcer le mode paysage
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+    ]);
+
     // Création d'une poutre avec données
     beam = Beam(10.0);
     beam.addSupport(Support(0.0, SupportType.encastrement));
@@ -25,83 +33,153 @@ class _ModulePontsState extends State<ModulePonts> {
   }
 
   @override
+  void dispose() {
+    // Rétablir orientation libre
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-      appBar: AppBar(title: const Text("Module Ponts")),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Stack(
-            children: [
-              Column(
-                children: [
-                  const Text("Structurez votre poutre"),
-                  const SizedBox(height: 20),
-                  // Ici on affiche la poutre
-                  BeamWidget(beam: beam),
-
-                  const SizedBox(height: 20,),
-
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          const Text(
-                            "Longueur de la poutre :",
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          Text("${beam.length} m")
-                        ],
-                      ),
-
-                      const SizedBox(height: 10),
-
-                      const Text(
-                        "Supports :",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      ...beam.supports.map(
-                        (t) => Text("Support à ${t.x} m, type: ${t.type.name}"),
-                      ),
-
-                      const SizedBox(height: 10),
-
-                      const Text(
-                        "Charges :",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      ...beam.loads.map((l) {
-                        if (l is PointLoad) {
-                          return Text(
-                            "Charge ponctuelle à ${l.x} m, valeur: ${l.value} kN",
-                          );
-                        } else if (l is DistributedLoad) {
-                          return Text(
-                            "Charge répartie de ${l.x} à ${l.xEnd} m, valeur: ${l.value} kN/m",
-                          );
-                        }
-                        return const Text("Charge inconnue");
-                      }),
-                    ],
-                  )
-
-                ],
-              ),
-
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: MyControlPannel(
-                  beam: beam,
-                  onUpdate: () {
-                    setState(() {});
-                  },
+      backgroundColor: Colors.grey[200],
+      body: Column(
+        children: [
+          // En-tete de la page
+          Container(
+            height: 30,
+            color: const Color.fromARGB(255, 142, 19, 19),
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                // Image/logo
+                Image.asset(
+                  'lib/assets/images/r.png', 
+                  height: 25,
                 ),
-              ),
-            ],
+                const SizedBox(width: 12),
+
+                // Texte ROADLY + PONTS
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Text(
+                      'ROADLY',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                    ),
+                    Text(
+                      'PONTS',
+                      style: TextStyle(
+                        fontSize: 6, 
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black54,
+                      ),
+                    ),
+                  ],
+                ),
+                const Spacer(),
+
+                Text(
+                  "STRUCTURAL ANALYSIS",
+                  style: TextStyle(
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black54,
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
+
+          Expanded(
+            child: Row(
+              children: [
+                // Panel de contrôle à gauche
+                SizedBox(
+                  width: 50,
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: MyControlPannel(
+                          beam: beam,
+                          onUpdate: () {
+                            setState(() {});
+                          },
+                        ),
+                      ),
+
+                      IconButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        icon: const Icon(Icons.close, color: Colors.black),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 16),
+                // Contenu principal à droite
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SizedBox(height: 16),
+
+                      // Ici on affiche la poutre
+                      BeamWidget(beam: beam),
+
+                      SizedBox(
+                        height: 16,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'L: ${beam.length}m',
+                              style: TextStyle(
+                                color: Colors.grey[600],
+                                fontSize: 10,
+                              ),
+                            ),
+
+                            Text(
+                              'Appuis: ${beam.supports.length}',
+                              style: TextStyle(
+                                color: Colors.grey[600],
+                                fontSize: 10,
+                              ),
+                            ),
+
+                            Text(
+                              'Charges: ${beam.loads.length}',
+                              style: TextStyle(
+                                color: Colors.grey[600],
+                                fontSize: 10,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 16),
+
+                SizedBox(width: 300, child: MainRightPannel(beam: beam)),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

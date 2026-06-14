@@ -27,41 +27,47 @@ class _MyControlPannelState extends State<MyControlPannel> {
       "SUPPR": showDeleteDialog,
     };
 
+    // Associer chaque label à une icône
+    final Map<String, IconData> commandIcons = {
+      "Aj. support": Icons.architecture,
+      "Aj. charge": Icons.flash_on,
+      "Modifier": Icons.edit,
+      "SUPPR": Icons.delete_forever,
+    };
+
     final List<String> commands = commandDialogs.keys.toList();
 
-    return Container(
-      padding: const EdgeInsets.all(12),
-      color: Colors.transparent,
-      constraints: const BoxConstraints(maxHeight: 200),
-      child: GridView.count(
-        crossAxisCount: 2,
-        crossAxisSpacing: 20,
-        mainAxisSpacing: 12,
-        childAspectRatio: 3,
-        physics: const NeverScrollableScrollPhysics(),
-        shrinkWrap: true,
-        children: commands.map((command) {
-          return GestureDetector(
-            onTap: () {
-              // 👉 Appelle directement la fonction associée
-              commandDialogs[command]?.call(context, widget.beam, widget.onUpdate);
-            },
-            child: Card(
-              color: const Color.fromARGB(255, 124, 160, 125),
-              elevation: 1,
-              child: Center(
-                child: Text(
-                  command,
-                  style: const TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold,
-                  ),
+    return GridView.count(
+      crossAxisCount: 1,
+      crossAxisSpacing: 20,
+      mainAxisSpacing: 12,
+      childAspectRatio: 1.2, // adapté pour icône seule
+      shrinkWrap: false,
+      children: commands.map((command) {
+        return InkWell(
+          onTap: () {
+            commandDialogs[command]?.call(context, widget.beam, widget.onUpdate);
+          },
+          borderRadius: BorderRadius.circular(12),
+          child: Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            color: Colors.teal.shade600,
+            elevation: 4,
+            child: Center(
+              child: Tooltip(
+                message: command,
+                child: Icon(
+                  commandIcons[command],
+                  color: Colors.white,
+                  size: 32,
                 ),
               ),
             ),
-          );
-        }).toList(),
-      ),
+          ),
+        );
+      }).toList(),
     );
   }
 }
