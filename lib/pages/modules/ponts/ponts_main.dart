@@ -44,74 +44,48 @@ class _ModulePontsState extends State<ModulePonts> {
 
   @override
   Widget build(BuildContext context) {
-    // Récupère les marges système (notch, barre de statut, etc.)
     final safePadding = MediaQuery.of(context).padding;
+    final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
+
+    // ✅ Padding adaptatif
+    double basePadding = isLandscape ? 32 : 16;
 
     return Scaffold(
       backgroundColor: Colors.grey[200],
 
-      // ✅ AppBar propre
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 237, 203, 203),
         elevation: 0,
         toolbarHeight: 30,
-        automaticallyImplyLeading:
-            false,
+        automaticallyImplyLeading: false,
         titleSpacing: 12,
         title: Row(
           children: [
-            // Logo
-            Image.asset(
-              'lib/assets/images/r.png',
-              height: 20,
-              cacheHeight: 20,
-            ),
+            Image.asset('lib/assets/images/r.png', height: 20),
             const SizedBox(width: 8),
-
-            // Texte ROADLY + PONTS
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: const [
-                Text(
-                  'ROADLY',
-                  style: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
-                ),
-                Text(
-                  'PONTS',
-                  style: TextStyle(
-                    fontSize: 9,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black54,
-                  ),
-                ),
+                Text('ROADLY',
+                    style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold)),
+                Text('PONTS',
+                    style: TextStyle(fontSize: 9, fontWeight: FontWeight.w500)),
               ],
             ),
             const Spacer(),
-
-            const Text(
-              "STRUCTURAL ANALYSIS",
-              style: TextStyle(
-                fontSize: 11,
-                fontWeight: FontWeight.bold,
-                color: Colors.black54,
-              ),
-            ),
+            const Text("STRUCTURAL ANALYSIS",
+                style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold)),
           ],
         ),
       ),
 
       body: Padding(
-      padding: EdgeInsets.only(
-        left: safePadding.left > 0 ? 24 : 16,   // plus de marge si notch à gauche
-        right: safePadding.right > 0 ? 24 : 16, // plus de marge si notch à droite
+        padding: EdgeInsets.only(
+          left: safePadding.left > 0 ? basePadding + 8 : basePadding,
+          right: safePadding.right > 0 ? basePadding + 8 : basePadding,
         ),
         child: Row(
           children: [
-            // Panel de contrôle à gauche
             SizedBox(
               width: 50,
               child: Column(
@@ -119,15 +93,11 @@ class _ModulePontsState extends State<ModulePonts> {
                   Expanded(
                     child: MyControlPannel(
                       beam: beam,
-                      onUpdate: () {
-                        setState(() {});
-                      },
+                      onUpdate: () => setState(() {}),
                     ),
                   ),
                   IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
+                    onPressed: () => Navigator.pop(context),
                     icon: const Icon(Icons.close, color: Colors.black),
                   ),
                 ],
@@ -135,7 +105,6 @@ class _ModulePontsState extends State<ModulePonts> {
             ),
             const SizedBox(width: 16),
 
-            // Contenu principal au centre
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -148,27 +117,12 @@ class _ModulePontsState extends State<ModulePonts> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          'L: ${beam.length}m',
-                          style: TextStyle(
-                            color: Colors.grey[600],
-                            fontSize: 10,
-                          ),
-                        ),
-                        Text(
-                          'Appuis: ${beam.supports.length}',
-                          style: TextStyle(
-                            color: Colors.grey[600],
-                            fontSize: 10,
-                          ),
-                        ),
-                        Text(
-                          'Charges: ${beam.loads.length}',
-                          style: TextStyle(
-                            color: Colors.grey[600],
-                            fontSize: 10,
-                          ),
-                        ),
+                        Text('L: ${beam.length}m',
+                            style: TextStyle(color: Colors.grey[600], fontSize: 10)),
+                        Text('Appuis: ${beam.supports.length}',
+                            style: TextStyle(color: Colors.grey[600], fontSize: 10)),
+                        Text('Charges: ${beam.loads.length}',
+                            style: TextStyle(color: Colors.grey[600], fontSize: 10)),
                       ],
                     ),
                   ),
