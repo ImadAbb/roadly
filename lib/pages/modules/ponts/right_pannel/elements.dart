@@ -31,54 +31,52 @@ class ElementsPannel extends StatelessWidget {
   Widget build(BuildContext context) {
     final elements = [...beam.supports, ...beam.loads];
 
-    return Expanded(
-      child: SingleChildScrollView(
-        padding: const EdgeInsets.all(8), // 👈 padding réduit
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Éléments (${elements.length})",
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 14, // 👈 plus petit
-              ),
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(8), // 👈 padding réduit
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Éléments (${elements.length})",
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 14, // 👈 plus petit
             ),
-            const SizedBox(height: 8),
-            ...elements.map((e) => Padding(
-              padding: const EdgeInsets.symmetric(vertical: 4),
-              child: Row(
-                children: [
-                  // rond coloré plus petit
-                  Container(
-                    width: 12, // 👈 réduit
-                    height: 12,
-                    decoration: BoxDecoration(
-                      color: _colorForElement(e),
-                      shape: BoxShape.circle,
-                    ),
+          ),
+          const SizedBox(height: 8),
+          ...elements.map((e) => Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4),
+            child: Row(
+              children: [
+                // rond coloré plus petit
+                Container(
+                  width: 12, // 👈 réduit
+                  height: 12,
+                  decoration: BoxDecoration(
+                    color: _colorForElement(e),
+                    shape: BoxShape.circle,
                   ),
-                  const SizedBox(width: 6),
-                  // texte type + valeur plus petit
-                  Expanded(
-                    child: Text(
-                      _labelForElement(e),
-                      style: const TextStyle(fontSize: 12), // 👈 réduit
-                    ),
+                ),
+                const SizedBox(width: 6),
+                // texte type + valeur plus petit
+                Expanded(
+                  child: Text(
+                    _labelForElement(e),
+                    style: const TextStyle(fontSize: 12), // 👈 réduit
                   ),
-                  // position affichée à la fin plus petit
-                  Text(
-                    _positionForElement(e),
-                    style: const TextStyle(
-                      fontSize: 11, // 👈 réduit
-                      color: Colors.grey,
-                    ),
+                ),
+                // position affichée à la fin plus petit
+                Text(
+                  _positionForElement(e),
+                  style: const TextStyle(
+                    fontSize: 11, // 👈 réduit
+                    color: Colors.grey,
                   ),
-                ],
-              ),
-            )),
-          ],
-        ),
+                ),
+              ],
+            ),
+          )),
+        ],
       ),
     );
   }
