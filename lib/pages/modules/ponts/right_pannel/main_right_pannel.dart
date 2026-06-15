@@ -3,6 +3,7 @@ import 'package:roadly/pages/modules/ponts/editeur_de_poutre/structure/classes.d
 import 'package:roadly/pages/modules/ponts/right_pannel/elements.dart';
 import 'package:roadly/pages/modules/ponts/right_pannel/propreties.dart';
 import 'package:roadly/pages/modules/ponts/right_pannel/results.dart';
+import 'package:roadly/pages/modules/ponts/editeur_de_poutre/structure/selection_notifier.dart';
 
 class MainRightPannel extends StatefulWidget {
   final Beam beam;
@@ -21,12 +22,21 @@ class _MainRightPannelState extends State<MainRightPannel> {
   void initState() {
     super.initState();
     _controller = PageController();
+    selectedElementNotifier.addListener(_onSelectionChanged);
   }
 
   @override
   void dispose() {
+    selectedElementNotifier.removeListener(_onSelectionChanged);
     _controller.dispose();
     super.dispose();
+  }
+
+  void _onSelectionChanged() {
+    final sel = selectedElementNotifier.value;
+    if (sel != null) {
+      _goToPage(1);
+    }
   }
 
   void _goToPage(int index) {
@@ -85,7 +95,7 @@ class _MainRightPannelState extends State<MainRightPannel> {
             controller: _controller,
             children: [
               ElementsPannel(beam: widget.beam),
-              const Propreties(),
+              Propreties(beam: widget.beam),
               const Resultats(),
             ],
           ),

@@ -9,13 +9,13 @@ class ElementsPannel extends StatelessWidget {
   Color _colorForElement(dynamic e) {
     if (e is Support) return Colors.green;
     if (e is PointLoad) return Colors.red;
-    if (e is DistributedLoad) return Colors.yellow;
+    if (e is DistributedLoad) return Colors.orange;
     return Colors.grey;
   }
 
   String _labelForElement(dynamic e) {
     if (e is Support) return "Appui ${e.type.name}";
-    if (e is PointLoad) return "Charge : ${e.value} kN";
+    if (e is PointLoad) return "Concentré : ${e.value} kN";
     if (e is DistributedLoad) return "Répartie : ${e.value} kN/m";
     return "Élément inconnu";
   }
@@ -45,7 +45,7 @@ class ElementsPannel extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           ...elements.map((e) => Padding(
-            padding: const EdgeInsets.symmetric(vertical: 4),
+            padding: const EdgeInsets.symmetric(vertical: 8),
             child: Row(
               children: [
                 // rond coloré plus petit

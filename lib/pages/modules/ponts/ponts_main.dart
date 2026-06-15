@@ -61,7 +61,11 @@ class _ModulePontsState extends State<ModulePonts> {
         titleSpacing: 12,
         title: Row(
           children: [
-            Image.asset('lib/assets/images/r.png', height: 20),
+            Image.asset(
+              'lib/assets/images/r.png', 
+              height: 20,
+              cacheHeight: 25,
+            ),
             const SizedBox(width: 8),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
