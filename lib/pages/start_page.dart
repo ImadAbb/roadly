@@ -51,54 +51,49 @@ class StartPage extends StatelessWidget {
       ),
     ];
 
-    return Scaffold(
-      backgroundColor: Colors.grey[100],
-      body: CustomScrollView(
+    return ScrollConfiguration(
+      behavior: ScrollConfiguration.of(context).copyWith(
+        overscroll: false, // 👈 enlève le stretch/rebond
         physics: const ClampingScrollPhysics(),
-        slivers: [
-          SliverToBoxAdapter(child: _buildHeader(context)),
-          SliverToBoxAdapter(child: _buildSearchBar()),
-          SliverToBoxAdapter(child: _buildQuickAccess(context)),
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(20, 24, 20, 0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    'MODULES',
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black54,
+      ),
+      child: Scaffold(
+        backgroundColor: Colors.grey[100],
+        body: CustomScrollView(
+          physics: const ClampingScrollPhysics(),
+          slivers: [
+            SliverToBoxAdapter(child: _buildHeader(context)),
+            SliverToBoxAdapter(child: _buildSearchBar()),
+            SliverToBoxAdapter(child: _buildQuickAccess(context)),
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(20, 24, 20, 0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      'MODULES',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black54,
+                      ),
                     ),
-                  ),
-                  Container()
-                ],
+                    Container(),
+                  ],
+                ),
               ),
             ),
-          ),
-          SliverPadding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            sliver: SliverGrid(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 12,
-                mainAxisSpacing: 12,
-                childAspectRatio: 0.75,
-              ),
-              delegate: SliverChildBuilderDelegate(
-                (context, i) => GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => modulesList[i].page,
-                      ),
-                    );
-                  },
-                  child: ModulesTile(
-                    modules: modulesList[i],
+            SliverPadding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              sliver: SliverGrid(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 12,
+                  mainAxisSpacing: 12,
+                  childAspectRatio: 0.75,
+                ),
+                delegate: SliverChildBuilderDelegate(
+                  (context, i) => GestureDetector(
                     onTap: () {
                       Navigator.push(
                         context,
@@ -107,15 +102,26 @@ class StartPage extends StatelessWidget {
                         ),
                       );
                     },
+                    child: ModulesTile(
+                      modules: modulesList[i],
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => modulesList[i].page,
+                          ),
+                        );
+                      },
+                    ),
                   ),
+                  childCount: modulesList.length,
                 ),
-                childCount: modulesList.length,
               ),
             ),
-          ),
-          SliverToBoxAdapter(child: _buildTipCard()),
-          const SliverToBoxAdapter(child: SizedBox(height: 32)),
-        ],
+            SliverToBoxAdapter(child: _buildTipCard()),
+            const SliverToBoxAdapter(child: SizedBox(height: 32)),
+          ],
+        ),
       ),
     );
   }
