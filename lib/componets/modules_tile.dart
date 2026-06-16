@@ -22,7 +22,7 @@ class ModulesTile extends StatelessWidget {
           border: Border.all(color: Colors.grey.shade300),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
+              color: Colors.black.withValues(alpha: 0.05),
               blurRadius: 6,
               offset: const Offset(0, 3),
             ),
@@ -39,7 +39,7 @@ class ModulesTile extends StatelessWidget {
               right: 0,
               child: Container(
                 height: 3,
-                color: Colors.blueAccent.withOpacity(0.8),
+                color: Colors.blueAccent.withValues(alpha: 0.8),
               ),
             ),
 
@@ -57,9 +57,9 @@ class ModulesTile extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 8, vertical: 3),
                         decoration: BoxDecoration(
-                          color: Colors.blueAccent.withOpacity(0.12),
+                          color: Colors.blueAccent.withValues(alpha: 0.12),
                           border: Border.all(
-                              color: Colors.blueAccent.withOpacity(0.3)),
+                              color: Colors.blueAccent.withValues(alpha: 0.3)),
                           borderRadius: BorderRadius.circular(99),
                         ),
                         child: Text(

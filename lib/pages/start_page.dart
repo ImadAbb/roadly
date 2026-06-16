@@ -54,6 +54,7 @@ class StartPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.grey[100],
       body: CustomScrollView(
+        physics: const ClampingScrollPhysics(),
         slivers: [
           SliverToBoxAdapter(child: _buildHeader(context)),
           SliverToBoxAdapter(child: _buildSearchBar()),
@@ -354,8 +355,8 @@ class StartPage extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: Colors.blueAccent.withOpacity(0.1),
-          border: Border.all(color: Colors.blueAccent.withOpacity(0.2)),
+          color: Colors.blueAccent.withValues(alpha: 0.1),
+          border: Border.all(color: Colors.blueAccent.withValues(alpha: 0.2)),
           borderRadius: BorderRadius.circular(14),
         ),
         child: const Row(
