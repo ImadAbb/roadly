@@ -61,8 +61,8 @@ class _IntroductionState extends State<Introduction> {
                       : TextButton(
                           onPressed: () {
                             _controller.nextPage(
-                              duration: Duration(milliseconds: 500),
-                              curve: Curves.easeIn,
+                              duration: Duration(milliseconds: 400),
+                              curve: Curves.ease,
                             );
                           },
                           child: Text("Suivant"),
