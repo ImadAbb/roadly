@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:roadly/componets/button.dart';
 import 'package:roadly/pages/modules/route/cbr/cbr_model.dart';
 
 /// Fonction qui vérifie les entrées, affiche les SnackBars si besoin,
@@ -16,6 +17,14 @@ void checkInputAndValidate({
   required String? selectedValue,
   required void Function(CBRResults results)? onValidated,
 }) {
+    // ✅ Nettoyage des inputs
+  anneeComptage = cleanInput(anneeComptage);
+  tjmaMin = cleanInput(tjmaMin);
+  pl = cleanInput(pl);
+  anneeMiseEnService = cleanInput(anneeMiseEnService);
+  tauxAccroissement = cleanInput(tauxAccroissement);
+  iCBR = cleanInput(iCBR);
+  dureeDeVie = cleanInput(dureeDeVie);
   // Vérifier que tous les champs sont remplis
   if (anneeComptage.isEmpty ||
       selectedValue == null ||

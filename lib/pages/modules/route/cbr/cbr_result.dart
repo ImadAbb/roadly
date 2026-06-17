@@ -32,7 +32,7 @@ class ResultPageCbr extends StatelessWidget {
           const SizedBox(height: 20),
 
           _buildSectionTitle("Informations générales"),
-          ResultCard(icon: Icons.alt_route, label: 'Type de voies', value: result.pavementType),
+          ResultCard(icon: Icons.alt_route, label: '', value: result.pavementType),
           ResultCard(icon: Icons.timeline, label: 'Répartition transversale du trafic', value: result.codeChaussee.toStringAsFixed(2)),
           ResultCard(icon: Icons.calendar_today, label: 'Année de fin de vie', value: result.anneeFinDeVie.toString()),
 
