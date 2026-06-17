@@ -2,7 +2,7 @@
 import 'package:roadly/pages/modules/route/cbr/cbr_checkinput.dart';
 import 'package:roadly/pages/modules/route/cbr/cbr_model.dart';
 import 'package:roadly/pages/modules/route/cbr/cbr_result.dart';
-import 'package:roadly/widgets/build_field.dart';
+import 'package:roadly/assets/widgets/build_field.dart';
 
 class CBRRoute extends StatefulWidget {
   final ScrollController scrollController;
@@ -40,6 +40,10 @@ class _CBRRouteState extends State<CBRRoute> {
               : SingleChildScrollView(child: ResultPageCbr(results: results)),
         ),
         BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          backgroundColor: const Color.fromARGB(255, 255, 0, 0),
+          selectedItemColor: const Color.fromARGB(255, 225, 35, 6),
+          unselectedItemColor: const Color.fromARGB(255, 244, 6, 6),
           currentIndex: _selectedIndex,
           onTap: (index) {
             setState(() => _selectedIndex = index);

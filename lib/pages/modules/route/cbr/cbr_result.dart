@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:roadly/pages/modules/route/cbr/cbr_model.dart';
-import 'package:roadly/widgets/result_card.dart';
+import 'package:roadly/assets/widgets/result_card.dart';
 
 class ResultPageCbr extends StatelessWidget {
   final CBRResults? results;

@@ -1,4 +1,5 @@
 ﻿import 'package:flutter/material.dart';
+import 'package:roadly/assets/themes/colors.dart';
 import 'package:roadly/pages/modules/route/cbr/cbr.dart';
 import 'package:roadly/pages/modules/route/cbr/cbr_model.dart';
 import 'package:roadly/pages/modules/route/cbr/cbr_result.dart';
@@ -33,7 +34,7 @@ class _ModuleRouteState extends State<ModuleRoute> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[100],
+      backgroundColor: RoadlyColors.backgroundLight,
 
       body: CustomScrollView(
         controller: scrollController,

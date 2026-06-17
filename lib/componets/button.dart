@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:roadly/assets/themes/colors.dart';
 
 class MyButton extends StatelessWidget {
   final String text;
@@ -11,7 +12,7 @@ class MyButton extends StatelessWidget {
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
-          color: const Color.fromARGB(255, 233, 149, 143),
+          color: RoadlyColors.secondary,
           borderRadius: BorderRadius.circular(40),
         ),
         padding: EdgeInsets.all(20),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:keyboard_actions/keyboard_actions.dart';
 
 class BuildField extends StatelessWidget {
   final TextEditingController controller;
@@ -40,11 +39,23 @@ class BuildField extends StatelessWidget {
             FocusScope.of(context).unfocus();
           }
         },
+        onTapOutside: (_) => FocusScope.of(context).unfocus(),
         decoration: InputDecoration(
           border: InputBorder.none,
           prefixIcon: Icon(icon),
           labelText: label,
           contentPadding: const EdgeInsets.all(18),
+          suffixIcon: nextFocus != null
+          ? IconButton(
+            icon: const Icon(Icons.arrow_drop_down_circle),
+            color: const Color.fromARGB(151, 68, 137, 255),
+            onPressed: () => FocusScope.of(context).requestFocus(nextFocus),
+          )
+          : IconButton(
+            icon: const Icon(Icons.done_outlined),
+            color: const Color.fromARGB(196, 68, 137, 255),
+            onPressed: () => FocusScope.of(context).unfocus(),
+          )
         ),
       ),
     );

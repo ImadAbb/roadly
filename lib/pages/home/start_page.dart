@@ -3,6 +3,7 @@ import 'package:roadly/componets/modules.dart';
 import 'package:roadly/componets/modules_tile.dart';
 import 'package:roadly/pages/allyoucando/allyou/introduction.dart';
 import 'package:roadly/pages/allyoucando/credits_page.dart';
+import 'package:roadly/pages/home/tip_card.dart';
 import 'package:roadly/pages/modules/hydraulique/hydraulique_page.dart';
 import 'package:roadly/pages/modules/ponts/ponts_main.dart';
 import 'package:roadly/pages/modules/route/route_page.dart';
@@ -33,7 +34,7 @@ class StartPage extends StatelessWidget {
         lastUpdate: "7 Juin",
         icon: Icons.water_drop,
         page: ModuleHydraulique(),
-        descreption: "Calculs d’écoulement et réseaux hydrauliques",
+        descreption: "Calculs d'écoulement et réseaux hydrauliques",
       ),
       Modules(
         name: "Structure Métallique",
@@ -135,7 +136,7 @@ class StartPage extends StatelessWidget {
                 ),
               ),
             ),
-            SliverToBoxAdapter(child: _buildTipCard()),
+            SliverToBoxAdapter(child: TipCard()),
             const SliverToBoxAdapter(child: SizedBox(height: 32)),
           ],
         ),
@@ -369,53 +370,5 @@ class StartPage extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  // ── Tip card ─────────────────────────────────────────
-  Widget _buildTipCard() {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: Colors.blueAccent.withValues(alpha: 0.1),
-          border: Border.all(color: Colors.blueAccent.withValues(alpha: 0.2)),
-          borderRadius: BorderRadius.circular(14),
-        ),
-        child: const Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('💡', style: TextStyle(fontSize: 20)),
-            SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'LE SAVIEZ-VOUS ?',
-                    style: TextStyle(
-                      color: Colors.blueAccent,
-                      fontSize: 10,
-                      fontWeight: FontWeight.w700,
-                      letterSpacing: 0.8,
-                    ),
-                  ),
-                  SizedBox(height: 4),
-                  Text(
-                    'La méthode CBR permet de déterminer l\'épaisseur totale '
-                    'd\'une chaussée à partir de la portance du sol et du trafic.',
-                    style: TextStyle(
-                      color: Colors.black87,
-                      fontSize: 13,
-                      height: 1.5,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+  }  
 }
