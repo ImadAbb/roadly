@@ -1,6 +1,7 @@
 ﻿import 'package:flutter/material.dart';
-import 'package:roadly/componets/button.dart';
-import 'package:roadly/pages/modules/route/cbr.dart';
+import 'package:roadly/pages/modules/route/cbr/cbr.dart';
+import 'package:roadly/pages/modules/route/cbr/cbr_model.dart';
+import 'package:roadly/pages/modules/route/cbr/cbr_result.dart';
 
 class ModuleRoute extends StatefulWidget {
   const ModuleRoute({super.key});
@@ -11,125 +12,176 @@ class ModuleRoute extends StatefulWidget {
 
 class _ModuleRouteState extends State<ModuleRoute> {
   String? selectedMethod;
-  final ScrollController _scrollController = ScrollController();
-  int _selectedIndex = 0;
+  int selectedIndex = 0;
   CBRResults? results;
 
-  void _onValidated(CBRResults validatedResults) {
+  final ScrollController scrollController = ScrollController();
+
+  void _onValidated(CBRResults value) {
     setState(() {
-      results = validatedResults;
-      _selectedIndex = 1;
+      results = value;
+      selectedIndex = 1;
     });
-    _scrollController.animateTo(0,
-        duration: const Duration(milliseconds: 400), curve: Curves.easeOut);
+
+    scrollController.animateTo(
+      0,
+      duration: const Duration(milliseconds: 400),
+      curve: Curves.easeOut,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      behavior: HitTestBehavior.translucent,
-      onTap: () => FocusScope.of(context).unfocus(),
-      child: Scaffold(
-        body: CustomScrollView(
-          controller: _scrollController,
-          slivers: [
-            SliverAppBar(
-              expandedHeight: 100.0,
-              floating: true,
-              snap: true,
-              pinned: false,
-              flexibleSpace: FlexibleSpaceBar(
-                centerTitle: true,
-                title: Text(
-                  selectedMethod != null ? "ROUTE $selectedMethod" : "ROUTE",
-                  style: const TextStyle(fontFamily: 'Serif', fontSize: 22),
-                ),
-                background: Container(
-                  decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [Colors.blue, Colors.lightBlueAccent],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                  ),
-                ),
+    return Scaffold(
+      backgroundColor: Colors.grey[100],
+
+      body: CustomScrollView(
+        controller: scrollController,
+        slivers: [
+          /// HEADER
+          SliverAppBar(
+            backgroundColor: Color(0xFF42A5F5),
+            elevation: 0,
+            expandedHeight: 220,
+            floating: true,
+            pinned: true,
+            leading: IconButton(
+              icon: const Icon(
+                Icons.arrow_back_ios,
+                color: Colors.white,
+                size: 20,
               ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
             ),
-      
-            SliverPadding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              sliver: SliverList(
-                delegate: SliverChildListDelegate([
-                  const SizedBox(height: 15),
-                  const Center(
-                    child: Text(
-                      "Choisissez la méthode à utiliser :",
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
+            flexibleSpace: FlexibleSpaceBar(
+              background: Container(
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Color(0xFF1565C0), Color(0xFF42A5F5)],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
                   ),
-                  const SizedBox(height: 15),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      MethodButton(
-                        method: "CBR",
-                        isSelected: selectedMethod == "CBR",
-                        onTap: () => setState(() => selectedMethod = "CBR"),
-                      ),
-                      MethodButton(
-                        method: "Asphalt Institute",
-                        isSelected: selectedMethod == "Asphalt Institute",
-                        onTap: () =>
-                            setState(() => selectedMethod = "Asphalt Institute"),
-                      ),
-                      MethodButton(
-                        method: "CTTP",
-                        isSelected: selectedMethod == "CTTP",
-                        onTap: () => setState(() => selectedMethod = "CTTP"),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 15),
-                ]),
-              ),
-            ),
-      
-            if (selectedMethod == "CBR")
-              SliverToBoxAdapter(
-                child: IndexedStack(
-                  index: _selectedIndex,
+                ),
+                padding: const EdgeInsets.fromLTRB(20, 60, 20, 20),
+                child: const Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SingleChildScrollView(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: CBR(onValidated: _onValidated),
+                    Text(
+                      "MODULE ROUTE",
+                      style: TextStyle(
+                        color: Colors.white70,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                    SingleChildScrollView(
-                      child: ResultPage(results: results),
+
+                    SizedBox(height: 10),
+
+                    Text(
+                      "Dimensionnement\nDes Chaussées",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+
+                    SizedBox(height: 10),
+
+                    Text(
+                      "Choisissez une méthode de calcul",
+                      style: TextStyle(color: Colors.white70),
                     ),
                   ],
                 ),
               ),
+            ),
+          ),
+
+          /// CHOIX MÉTHODE
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Row(
+                children: [
+                  Expanded(child: _methodCard("CBR", Icons.bar_chart)),
+
+                  const SizedBox(width: 12),
+
+                  Expanded(child: _methodCard("AI", Icons.layers)),
+
+                  const SizedBox(width: 12),
+
+                  Expanded(child: _methodCard("CTTP", Icons.architecture)),
+                ],
+              ),
+            ),
+          ),
+
+          if (selectedMethod == "CBR")
+            SliverToBoxAdapter(
+              child: selectedIndex == 0
+                  ? CBR(onValidated: _onValidated)
+                  : ResultPageCbr(results: results),
+            ),
+        ],
+      ),
+
+      bottomNavigationBar: selectedMethod == "CBR"
+          ? BottomNavigationBar(
+              currentIndex: selectedIndex,
+              onTap: (i) {
+                setState(() {
+                  selectedIndex = i;
+                });
+              },
+              items: const [
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.edit),
+                  label: "Formulaire",
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.bar_chart),
+                  label: "Résultats",
+                ),
+              ],
+            )
+          : null,
+    );
+  }
+
+  Widget _methodCard(String method, IconData icon) {
+    final selected = selectedMethod == method;
+
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          selectedMethod = method;
+        });
+      },
+      child: Container(
+        padding: const EdgeInsets.all(16),
+
+        decoration: BoxDecoration(
+          color: selected ? Colors.blue.withValues(alpha: .1) : Colors.white,
+
+          borderRadius: BorderRadius.circular(16),
+
+          border: Border.all(
+            color: selected ? Colors.blue : Colors.grey.shade300,
+          ),
+        ),
+
+        child: Column(
+          children: [
+            Icon(icon),
+
+            const SizedBox(height: 8),
+
+            Text(method, textAlign: TextAlign.center),
           ],
         ),
-      
-        // 👇 BottomNavigationBar fixé en bas
-        bottomNavigationBar: selectedMethod == "CBR"
-            ? BottomNavigationBar(
-                currentIndex: _selectedIndex,
-                onTap: (index) {
-                  setState(() => _selectedIndex = index);
-                  _scrollController.animateTo(0,
-                      duration: const Duration(milliseconds: 400),
-                      curve: Curves.easeOut);
-                },
-                items: const [
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.edit), label: 'Formulaire'),
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.stacked_bar_chart), label: 'Résultats'),
-                ],
-              )
-            : null,
       ),
     );
   }

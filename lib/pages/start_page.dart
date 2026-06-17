@@ -61,7 +61,24 @@ class StartPage extends StatelessWidget {
         body: CustomScrollView(
           physics: const ClampingScrollPhysics(),
           slivers: [
-            SliverToBoxAdapter(child: _buildHeader(context)),
+            SliverAppBar(
+              automaticallyImplyLeading: false,
+              pinned: false,
+              floating: true,
+              snap: true,
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              expandedHeight: 240,
+              flexibleSpace: FlexibleSpaceBar(
+                collapseMode: CollapseMode.pin,
+                background: _buildHeader(context), // 👈 ton header complet
+                centerTitle: true,
+                stretchModes: const [
+                  StretchMode.fadeTitle, // 👈 fondu du titre, pas de zoom
+                ],
+              ),
+            ),
+
             SliverToBoxAdapter(child: _buildSearchBar()),
             SliverToBoxAdapter(child: _buildQuickAccess(context)),
             SliverToBoxAdapter(
