@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:keyboard_actions/keyboard_actions.dart';
 
 class BuildField extends StatelessWidget {
   final TextEditingController controller;
@@ -29,6 +30,9 @@ class BuildField extends StatelessWidget {
         controller: controller,
         focusNode: focusNode,
         keyboardType: const TextInputType.numberWithOptions(decimal: true),
+        textInputAction: nextFocus != null
+            ? TextInputAction.next
+            : TextInputAction.done,
         onSubmitted: (_) {
           if (nextFocus != null) {
             FocusScope.of(context).requestFocus(nextFocus);
