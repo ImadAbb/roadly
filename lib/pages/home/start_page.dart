@@ -5,7 +5,7 @@ import 'package:roadly/pages/allyoucando/allyou/introduction.dart';
 import 'package:roadly/pages/allyoucando/credits_page.dart';
 import 'package:roadly/pages/home/tip_card.dart';
 import 'package:roadly/pages/modules/hydraulique/hydraulique_page.dart';
-import 'package:roadly/pages/modules/ponts/ponts_main.dart';
+import 'package:roadly/pages/modules/ponts/choose_beta.dart';
 import 'package:roadly/pages/modules/route/route_page.dart';
 import 'package:roadly/pages/modules/structure/strmtc_page.dart';
 
@@ -47,7 +47,7 @@ class StartPage extends StatelessWidget {
         name: "Ponts",
         lastUpdate: "12 Juin",
         icon: Icons.add_road,
-        page: ModulePonts(),
+        page: ChooseBeta(),
         descreption: "Étude et calcul des poutres et ponts",
       ),
     ];
@@ -72,10 +72,10 @@ class StartPage extends StatelessWidget {
               expandedHeight: 240,
               flexibleSpace: FlexibleSpaceBar(
                 collapseMode: CollapseMode.pin,
-                background: _buildHeader(context), // 👈 ton header complet
+                background: _buildHeader(context), 
                 centerTitle: true,
                 stretchModes: const [
-                  StretchMode.fadeTitle, // 👈 fondu du titre, pas de zoom
+                  StretchMode.fadeTitle, 
                 ],
               ),
             ),
@@ -104,11 +104,11 @@ class StartPage extends StatelessWidget {
             SliverPadding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               sliver: SliverGrid(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 12,
-                  mainAxisSpacing: 12,
-                  childAspectRatio: 0.75,
+                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                  maxCrossAxisExtent: 320,
+                  crossAxisSpacing: 16,
+                  mainAxisSpacing: 16,
+                  childAspectRatio: 0.90,
                 ),
                 delegate: SliverChildBuilderDelegate(
                   (context, i) => GestureDetector(
@@ -370,5 +370,5 @@ class StartPage extends StatelessWidget {
         ],
       ),
     );
-  }  
+  }
 }

@@ -55,6 +55,5 @@ class Modify extends Command {
 
   @override
   void execute(Beam beam) {
-    // TODO: implement Modify
   }
 }
