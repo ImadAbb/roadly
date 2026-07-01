@@ -1,17 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:roadly/assets/themes/colors.dart';
 import 'package:roadly/pages/allyoucando/credits_page.dart';
 import 'package:roadly/pages/intro_page.dart';
 import 'package:roadly/pages/home/start_page.dart';
 
-void main() {
-  // Fix orientation
-  WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-    DeviceOrientation.portraitDown,
-  ]);
+void main() {  
 
   runApp(const MainApp());
 }

@@ -5,7 +5,7 @@ import 'package:roadly/pages/allyoucando/allyou/introduction.dart';
 import 'package:roadly/pages/allyoucando/credits_page.dart';
 import 'package:roadly/pages/home/tip_card.dart';
 import 'package:roadly/pages/modules/hydraulique/hydraulique_page.dart';
-import 'package:roadly/pages/modules/ponts/choose_beta.dart';
+import 'package:roadly/pages/modules/ponts/choose_beam_editor_v.dart';
 import 'package:roadly/pages/modules/route/route_page.dart';
 import 'package:roadly/pages/modules/structure/strmtc_page.dart';
 
@@ -62,24 +62,7 @@ class StartPage extends StatelessWidget {
         body: CustomScrollView(
           physics: const ClampingScrollPhysics(),
           slivers: [
-            SliverAppBar(
-              automaticallyImplyLeading: false,
-              pinned: false,
-              floating: true,
-              snap: true,
-              backgroundColor: Colors.transparent,
-              elevation: 0,
-              expandedHeight: 240,
-              flexibleSpace: FlexibleSpaceBar(
-                collapseMode: CollapseMode.pin,
-                background: _buildHeader(context), 
-                centerTitle: true,
-                stretchModes: const [
-                  StretchMode.fadeTitle, 
-                ],
-              ),
-            ),
-
+            SliverToBoxAdapter(child: _buildHeader(context)),
             SliverToBoxAdapter(child: _buildSearchBar()),
             SliverToBoxAdapter(child: _buildQuickAccess(context)),
             SliverToBoxAdapter(

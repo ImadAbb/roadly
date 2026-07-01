@@ -44,7 +44,7 @@ class _ModuleRouteState extends State<ModuleRoute> {
             backgroundColor: Color(0xFF42A5F5),
             elevation: 0,
             expandedHeight: 220,
-            floating: true,
+            floating: false,
             pinned: true,
             leading: IconButton(
               icon: const Icon(
