@@ -1,8 +1,6 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:roadly/assets/themes/colors.dart';
 import 'package:roadly/pages/modules/route/cbr/cbr.dart';
-import 'package:roadly/pages/modules/route/cbr/cbr_model.dart';
-import 'package:roadly/pages/modules/route/cbr/cbr_result.dart';
 
 class ModuleRoute extends StatefulWidget {
   const ModuleRoute({super.key});
@@ -13,23 +11,11 @@ class ModuleRoute extends StatefulWidget {
 
 class _ModuleRouteState extends State<ModuleRoute> {
   String? selectedMethod;
-  int selectedIndex = 0;
-  CBRResults? results;
+  bool _showHeader = true;
 
   final ScrollController scrollController = ScrollController();
 
-  void _onValidated(CBRResults value) {
-    setState(() {
-      results = value;
-      selectedIndex = 1;
-    });
-
-    scrollController.animateTo(
-      0,
-      duration: const Duration(milliseconds: 400),
-      curve: Curves.easeOut,
-    );
-  }
+  bool get _hasSelectedMethod => selectedMethod != null;
 
   @override
   Widget build(BuildContext context) {
@@ -37,15 +23,18 @@ class _ModuleRouteState extends State<ModuleRoute> {
       backgroundColor: RoadlyColors.backgroundLight,
 
       body: CustomScrollView(
+        physics: const NeverScrollableScrollPhysics(),
         controller: scrollController,
         slivers: [
           /// HEADER
           SliverAppBar(
-            backgroundColor: Color(0xFF42A5F5),
+            backgroundColor: const Color(0xFF42A5F5),
             elevation: 0,
-            expandedHeight: 220,
+            expandedHeight: _showHeader ? 220 : 0,
             floating: false,
             pinned: true,
+            snap: false,
+            toolbarHeight: _showHeader ? 56 : 0,
             leading: IconButton(
               icon: const Icon(
                 Icons.arrow_back_ios,
@@ -56,47 +45,50 @@ class _ModuleRouteState extends State<ModuleRoute> {
                 Navigator.pop(context);
               },
             ),
+            title: null,
             flexibleSpace: FlexibleSpaceBar(
-              background: Container(
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [Color(0xFF1565C0), Color(0xFF42A5F5)],
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                  ),
-                ),
-                padding: const EdgeInsets.fromLTRB(20, 60, 20, 20),
-                child: const Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "MODULE ROUTE",
-                      style: TextStyle(
-                        color: Colors.white70,
-                        fontWeight: FontWeight.bold,
+              background: _showHeader
+                  ? Container(
+                      decoration: const BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [Color(0xFF1565C0), Color(0xFF42A5F5)],
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                        ),
                       ),
-                    ),
+                      padding: const EdgeInsets.fromLTRB(20, 60, 20, 20),
+                      child: const Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "MODULE ROUTE",
+                            style: TextStyle(
+                              color: Colors.white70,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
 
-                    SizedBox(height: 10),
+                          SizedBox(height: 10),
 
-                    Text(
-                      "Dimensionnement\nDes Chaussées",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold,
+                          Text(
+                            "Dimensionnement\nDes Chaussées",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 28,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+
+                          SizedBox(height: 10),
+
+                          Text(
+                            "Choisissez une méthode de calcul",
+                            style: TextStyle(color: Colors.white70),
+                          ),
+                        ],
                       ),
-                    ),
-
-                    SizedBox(height: 10),
-
-                    Text(
-                      "Choisissez une méthode de calcul",
-                      style: TextStyle(color: Colors.white70),
-                    ),
-                  ],
-                ),
-              ),
+                    )
+                  : const SizedBox.shrink(),
             ),
           ),
 
@@ -120,35 +112,39 @@ class _ModuleRouteState extends State<ModuleRoute> {
             ),
           ),
 
-          if (selectedMethod == "CBR")
+          if (_hasSelectedMethod)
             SliverToBoxAdapter(
-              child: selectedIndex == 0
-                  ? CBR(onValidated: _onValidated)
-                  : ResultPageCbr(results: results),
+              child: GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _showHeader = !_showHeader;
+                  });
+                  scrollController.animateTo(
+                    0,
+                    duration: const Duration(milliseconds: 350),
+                    curve: Curves.easeInOut,
+                  );
+                },
+                child: Container(
+                  height: 24,
+                  color: Colors.transparent,
+                  alignment: Alignment.center,
+                  child: Icon(
+                    _showHeader ? Icons.keyboard_arrow_down : Icons.keyboard_arrow_up,
+                    color: Colors.grey,
+                    size: 20,
+                  ),
+                ),
+              ),
+            ),
+
+          if (selectedMethod == "CBR")
+            const SliverFillRemaining(
+              child: CBR(),
             ),
         ],
       ),
 
-      bottomNavigationBar: selectedMethod == "CBR"
-          ? BottomNavigationBar(
-              currentIndex: selectedIndex,
-              onTap: (i) {
-                setState(() {
-                  selectedIndex = i;
-                });
-              },
-              items: const [
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.edit),
-                  label: "Formulaire",
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.bar_chart),
-                  label: "Résultats",
-                ),
-              ],
-            )
-          : null,
     );
   }
 
@@ -159,10 +155,16 @@ class _ModuleRouteState extends State<ModuleRoute> {
       onTap: () {
         setState(() {
           selectedMethod = method;
+          _showHeader = false;
         });
+        scrollController.animateTo(
+          0,
+          duration: const Duration(milliseconds: 350),
+          curve: Curves.easeInOut,
+        );
       },
       child: Container(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(8),
 
         decoration: BoxDecoration(
           color: selected ? Colors.blue.withValues(alpha: .1) : Colors.white,

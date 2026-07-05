@@ -23,6 +23,7 @@ class MainApp extends StatelessWidget {
         '/creditspage': (context) => const CreditsPage(),
       },
       theme: ThemeData(
+        scaffoldBackgroundColor: RoadlyColors.backgroundLight,
         tooltipTheme: TooltipThemeData(
           decoration: BoxDecoration(
             color: Colors.white, // fond clair façon iOS

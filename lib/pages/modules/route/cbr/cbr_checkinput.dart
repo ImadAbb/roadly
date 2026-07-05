@@ -17,7 +17,7 @@ void checkInputAndValidate({
   required String? selectedValue,
   required void Function(CBRResults results)? onValidated,
 }) {
-    // ✅ Nettoyage des inputs
+    // Nettoyage des inputs
   anneeComptage = cleanInput(anneeComptage);
   tjmaMin = cleanInput(tjmaMin);
   pl = cleanInput(pl);
@@ -194,6 +194,5 @@ void checkInputAndValidate({
     dureeDeVieTotal: dureeDeVieTotal,
   );
 
-  // ✅ Retour des résultats
   onValidated?.call(results);
 }
