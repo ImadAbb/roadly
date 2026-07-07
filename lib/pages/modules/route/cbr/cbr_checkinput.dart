@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:roadly/componets/button.dart';
 import 'package:roadly/pages/modules/route/cbr/cbr_model.dart';
 
-/// Fonction qui vérifie les entrées, affiche les SnackBars si besoin,
-/// et renvoie les résultats calculés.
 void checkInputAndValidate({
   required BuildContext context,
   required String anneeComptage,
@@ -17,7 +15,6 @@ void checkInputAndValidate({
   required String? selectedValue,
   required void Function(CBRResults results)? onValidated,
 }) {
-    // Nettoyage des inputs
   anneeComptage = cleanInput(anneeComptage);
   tjmaMin = cleanInput(tjmaMin);
   pl = cleanInput(pl);
@@ -25,7 +22,6 @@ void checkInputAndValidate({
   tauxAccroissement = cleanInput(tauxAccroissement);
   iCBR = cleanInput(iCBR);
   dureeDeVie = cleanInput(dureeDeVie);
-  // Vérifier que tous les champs sont remplis
   if (anneeComptage.isEmpty ||
       selectedValue == null ||
       tjmaMin.isEmpty ||
@@ -52,7 +48,6 @@ void checkInputAndValidate({
     return;
   }
 
-  // Vérifier que tous les champs sont numériques
   final numericRegex = RegExp(r'^[0-9]+(\.[0-9]+)?$');
   if (!numericRegex.hasMatch(anneeComptage) ||
       !numericRegex.hasMatch(tjmaMin) ||
@@ -79,7 +74,6 @@ void checkInputAndValidate({
     return;
   }
 
-  // Parsing
   final parsedAnneeComptage = int.tryParse(anneeComptage);
   final parsedTjmaMin = double.tryParse(tjmaMin);
   final parsedPl = double.tryParse(pl);
@@ -113,7 +107,6 @@ void checkInputAndValidate({
     return;
   }
 
-  // Vérifier que les valeurs sont > 0
   if (parsedTjmaMin <= 0 ||
       parsedPl <= 0 ||
       parsedDureeDeVie <= 0 ||
@@ -136,7 +129,6 @@ void checkInputAndValidate({
     return;
   }
 
-  // ✅ Si tout est correct
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       content: Row(

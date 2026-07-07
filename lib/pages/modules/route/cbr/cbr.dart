@@ -103,7 +103,6 @@ class _CBRState extends State<CBR> with SingleTickerProviderStateMixin {
     super.dispose();
   }
 
-  // Widget pour le titre avec container bleu
   Widget _buildTitleContainer(String title, IconData icon) {
     return Container(
       padding: const EdgeInsets.all(12),
@@ -186,7 +185,7 @@ class _CBRState extends State<CBR> with SingleTickerProviderStateMixin {
 
   Widget _buildFormContent() {
     return Padding(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -194,6 +193,7 @@ class _CBRState extends State<CBR> with SingleTickerProviderStateMixin {
           FadeTransition(
             opacity: _fadeAnimation,
             child: Container(
+              
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                 color: Colors.orange.withValues(alpha: .08),
@@ -330,7 +330,7 @@ class _CBRState extends State<CBR> with SingleTickerProviderStateMixin {
               BuildField(
                 controller: tauxAccroissement,
                 focusNode: focusTauxAccroissement,
-                nextFocus: focusICBR,
+                nextFocus: focusDureeDeVie,
                 label: label5,
                 icon: Icons.trending_up,
               ),
@@ -383,6 +383,8 @@ class _CBRState extends State<CBR> with SingleTickerProviderStateMixin {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
+                icon: const Icon(Icons.check_circle, size: 20),
+                label: const Text("Valider et voir les résultats"),
                 onPressed: () {
                   checkInputAndValidate(
                     context: context,
@@ -397,8 +399,6 @@ class _CBRState extends State<CBR> with SingleTickerProviderStateMixin {
                     onValidated: _handleValidated,
                   );
                 },
-                icon: const Icon(Icons.check_circle, size: 20),
-                label: const Text("Valider et voir les résultats"),
               ),
             ),
           ),
@@ -434,6 +434,7 @@ class _CBRState extends State<CBR> with SingleTickerProviderStateMixin {
               label: "Résultats",
             ),
           ],
+          elevation: 0,
         ),
       ],
     );
