@@ -417,25 +417,23 @@ class _CBRState extends State<CBR> with SingleTickerProviderStateMixin {
               ? SingleChildScrollView(child: _buildFormContent())
               : ResultPageCbr(results: _results),
         ),
-        SafeArea(
-          child: BottomNavigationBar(
-            currentIndex: _selectedIndex,
-            onTap: (index) {
-              setState(() {
-                _selectedIndex = index;
-              });
-            },
-            items: const [
-              BottomNavigationBarItem(
-                icon: Icon(Icons.edit),
-                label: "Formulaire",
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.bar_chart),
-                label: "Résultats",
-              ),
-            ],
-          ),
+        BottomNavigationBar(
+          currentIndex: _selectedIndex,
+          onTap: (index) {
+            setState(() {
+              _selectedIndex = index;
+            });
+          },
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.edit),
+              label: "Formulaire",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.bar_chart),
+              label: "Résultats",
+            ),
+          ],
         ),
       ],
     );
