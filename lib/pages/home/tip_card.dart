@@ -21,7 +21,8 @@ class _TipCardState extends State<TipCard> with SingleTickerProviderStateMixin {
     "Les ponts métalliques combinent résistance et légèreté, ce qui les rend adaptés aux grandes portées.",
     "Un bon drainage est essentiel pour prolonger la durée de vie des routes.",
     "Les poutres en béton précontraint supportent des charges plus importantes que les poutres classiques.",
-    "Les chaussées souples s’adaptent mieux aux variations climatiques que les chaussées rigides.",
+    "Les chaussées souples s'adaptent mieux aux variations climatiques que les chaussées rigides.",
+    "La méthode de dimensionnement des chaussées proposée par l'Asphalt Institute a été développée afin de remédier à certaines limites observées dans les méthodes de dimensionnement reposant uniquement sur l'indice CBR."
   ];
 
   Timer? _timer;

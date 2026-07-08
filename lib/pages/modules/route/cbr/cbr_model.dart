@@ -31,3 +31,5 @@ class CBRResults {
     required this.dureeDeVieTotal,
   });
 }
+
+

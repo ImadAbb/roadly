@@ -1,5 +1,6 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:roadly/assets/themes/colors.dart';
+import 'package:roadly/pages/modules/route/asphalt_institute/asphalt_institute.dart';
 import 'package:roadly/pages/modules/route/cbr/cbr.dart';
 
 class ModuleRoute extends StatefulWidget {
@@ -141,6 +142,11 @@ class _ModuleRouteState extends State<ModuleRoute> {
           if (selectedMethod == "CBR")
             const SliverFillRemaining(
               child: CBR(),
+            ),
+
+            if (selectedMethod == "AI")
+            const SliverFillRemaining(
+              child: AsphaltInstute(),
             ),
         ],
       ),

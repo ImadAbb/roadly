@@ -4,8 +4,7 @@ import 'package:roadly/pages/allyoucando/credits_page.dart';
 import 'package:roadly/pages/intro_page.dart';
 import 'package:roadly/pages/home/start_page.dart';
 
-void main() {  
-
+void main() {
   runApp(const MainApp());
 }
 
@@ -49,6 +48,10 @@ class MainApp extends StatelessWidget {
           backgroundColor: RoadlyColors.backgroundLight,
           selectedItemColor: RoadlyColors.primary,
           unselectedItemColor: Colors.grey,
+        ),
+
+        dialogTheme: const DialogThemeData(
+          backgroundColor: RoadlyColors.backgroundLight, // couleur de fond par défaut
         ),
       ),
     );

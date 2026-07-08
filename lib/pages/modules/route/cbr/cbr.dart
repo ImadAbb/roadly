@@ -3,6 +3,10 @@ import 'package:roadly/assets/widgets/build_field.dart';
 import 'package:roadly/pages/modules/route/cbr/cbr_checkinput.dart';
 import 'package:roadly/pages/modules/route/cbr/cbr_model.dart';
 import 'package:roadly/pages/modules/route/cbr/cbr_result.dart';
+import 'package:roadly/pages/modules/route/route_widgets/from_field_config.dart';
+import 'package:roadly/pages/modules/route/route_widgets/group_container.dart';
+import 'package:roadly/pages/modules/route/route_widgets/info_banner.dart';
+import 'package:roadly/pages/modules/route/route_widgets/fade_transitions.dart';
 
 class CBR extends StatefulWidget {
   final void Function(CBRResults results)? onValidated;
@@ -13,24 +17,21 @@ class CBR extends StatefulWidget {
   State<CBR> createState() => _CBRState();
 }
 
-class _CBRState extends State<CBR> with SingleTickerProviderStateMixin {
-  final TextEditingController anneeComptage = TextEditingController();
-  final TextEditingController tjmaMin = TextEditingController();
-  final TextEditingController pl = TextEditingController();
-  final TextEditingController anneeMiseEnService = TextEditingController();
-  final TextEditingController tauxAccroissement = TextEditingController();
-  final TextEditingController iCBR = TextEditingController();
-  final TextEditingController dureeDeVie = TextEditingController();
+class _CBRState extends State<CBR> {
+  // 🔹 Contrôleurs nommés
+  final anneeController = TextEditingController();
+  final tjmaController = TextEditingController();
+  final plController = TextEditingController();
+  final anneeMiseEnServiceController = TextEditingController();
+  final tauxAccroissementController = TextEditingController();
+  final dureeDeVieController = TextEditingController();
+  final icbrController = TextEditingController();
 
-  String label1 = "Année De Comptage";
-  String label2 = "TJMA à l'année de comptage";
-  String label3 = "Proportion de poids Lourds (%)";
-  String label4 = "Année De Mise En Service";
-  String label5 = "Taux d'accroissement annuel du trafic (%)";
-  String label6 = "Indice Portant Californien du sol support (ICBR)";
-  String label7 = "Durée de vie de la chaussée (années)";
-
+  late final List<FieldGroup> fieldGroups;
   String? selectedValue;
+
+  int _selectedIndex = 0;
+  CBRResults? _results;
 
   final List<String> options = [
     "Chaussée unidirectionnelle à 2 voies",
@@ -39,139 +40,96 @@ class _CBRState extends State<CBR> with SingleTickerProviderStateMixin {
     "Chaussée bidirectionnelle à 3 voies",
   ];
 
-  final Map<String, double> optionsCodes = {
-    "Chaussée unidirectionnelle à 2 voies": 0.9,
-    "Chaussée unidirectionnelle à 3 voies": 0.8,
-    "Chaussée bidirectionnelle à 2 voies": 0.5,
-    "Chaussée bidirectionnelle à 3 voies": 0.5,
-  };
-
-  // Ordre correct des FocusNode
-  final FocusNode focusTypeVoies = FocusNode();
-  final FocusNode focusAnneeComptage = FocusNode();
-  final FocusNode focusTjmaMin = FocusNode();
-  final FocusNode focusPl = FocusNode();
-  final FocusNode focusAnneeMiseEnService = FocusNode();
-  final FocusNode focusTauxAccroissement = FocusNode();
-  final FocusNode focusICBR = FocusNode();
-  final FocusNode focusDureeDeVie = FocusNode();
-
-  late AnimationController _animationController;
-  late Animation<double> _fadeAnimation;
-  int _selectedIndex = 0;
-  CBRResults? _results;
-
   @override
   void initState() {
     super.initState();
-    
-    _animationController = AnimationController(
-      duration: const Duration(milliseconds: 800),
-      vsync: this,
-    );
-    
-    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _animationController, curve: Curves.easeOut),
-    );
 
-    // Démarrer l'animation après un court délai
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _animationController.forward();
-    });
+    fieldGroups = [
+      FieldGroup(
+        title: "Données du trafic",
+        icon: Icons.directions_car,
+        fields: [
+          FormFieldConfig(
+            label: "Année De Comptage",
+            icon: Icons.calendar_month,
+            controller: anneeController,
+            focusNode: FocusNode(),
+          ),
+          FormFieldConfig(
+            label: "TJMA à l'année de comptage",
+            icon: Icons.directions_car,
+            controller: tjmaController,
+            focusNode: FocusNode(),
+          ),
+          FormFieldConfig(
+            label: "Proportion de poids Lourds (%)",
+            icon: Icons.local_shipping,
+            controller: plController,
+            focusNode: FocusNode(),
+          ),
+        ],
+      ),
+      FieldGroup(
+        title: "Données techniques",
+        icon: Icons.settings,
+        fields: [
+          FormFieldConfig(
+            label: "Année De Mise En Service",
+            icon: Icons.engineering,
+            controller: anneeMiseEnServiceController,
+            focusNode: FocusNode(),
+          ),
+          FormFieldConfig(
+            label: "Taux d'accroissement annuel du trafic (%)",
+            icon: Icons.trending_up,
+            controller: tauxAccroissementController,
+            focusNode: FocusNode(),
+          ),
+          FormFieldConfig(
+            label: "Durée de vie de la chaussée (années)",
+            icon: Icons.schedule,
+            controller: dureeDeVieController,
+            focusNode: FocusNode(),
+          ),
+        ],
+      ),
+      FieldGroup(
+        title: "Données du sol",
+        icon: Icons.landscape,
+        fields: [
+          FormFieldConfig(
+            label: "Indice Portant Californien du sol support (ICBR)",
+            icon: Icons.landscape,
+            controller: icbrController,
+            focusNode: FocusNode(),
+          ),
+        ],
+      ),
+    ];
+
+    // 🔹 Relier tous les nextFocus en aplatissant
+    final flatList = fieldGroups.expand((g) => g.fields).toList();
+    for (int i = 0; i < flatList.length - 1; i++) {
+      flatList[i].nextFocus = flatList[i + 1].focusNode;
+    }
   }
 
   @override
   void dispose() {
-    _animationController.dispose();
-    focusTypeVoies.dispose();
-    focusAnneeComptage.dispose();
-    focusTjmaMin.dispose();
-    focusPl.dispose();
-    focusAnneeMiseEnService.dispose();
-    focusTauxAccroissement.dispose();
-    focusICBR.dispose();
-    focusDureeDeVie.dispose();
+    anneeController.dispose();
+    tjmaController.dispose();
+    plController.dispose();
+    anneeMiseEnServiceController.dispose();
+    tauxAccroissementController.dispose();
+    dureeDeVieController.dispose();
+    icbrController.dispose();
 
-    anneeComptage.dispose();
-    tjmaMin.dispose();
-    pl.dispose();
-    anneeMiseEnService.dispose();
-    tauxAccroissement.dispose();
-    iCBR.dispose();
-    dureeDeVie.dispose();
-
+    for (var group in fieldGroups) {
+      for (var f in group.fields) {
+        f.focusNode.dispose();
+      }
+    }
     super.dispose();
-  }
-
-  Widget _buildTitleContainer(String title, IconData icon) {
-    return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Color.fromARGB(255, 36, 118, 184),
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
-      ),
-      child: Row(
-        children: [
-          Icon(icon, color: Colors.white, size: 18),
-          const SizedBox(width: 8),
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  // Widget pour le contenu du groupe
-  Widget _buildGroupContent(Widget child) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: child,
-    );
-  }
-
-  // Widget pour un groupe complet
-  Widget _buildGroup({
-    required String title,
-    required IconData icon,
-    required Widget content,
-  }) {
-    return FadeTransition(
-      opacity: _fadeAnimation,
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(12),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.shade300,
-              blurRadius: 4,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildTitleContainer(title, icon),
-            _buildGroupContent(content),
-          ],
-        ),
-      ),
-    );
-  }
-
-  // Widget pour les champs de type BuildField
-  Widget _buildFieldGroupWidgets(List<Widget> fields) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: fields,
-    );
   }
 
   void _handleValidated(CBRResults results) {
@@ -179,53 +137,28 @@ class _CBRState extends State<CBR> with SingleTickerProviderStateMixin {
       _results = results;
       _selectedIndex = 1;
     });
-
     widget.onValidated?.call(results);
   }
 
   Widget _buildFormContent() {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Info banner avec animation
-          FadeTransition(
-            opacity: _fadeAnimation,
-            child: Container(
-              
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Colors.orange.withValues(alpha: .08),
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: const Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Icon(Icons.info_outline, color: Colors.orange),
-                  SizedBox(width: 12),
-                  Expanded(
-                    child: Text(
-                      "La méthode CBR permet de déterminer l'épaisseur d'une chaussée à partir du trafic et de la portance du sol.",
-                      style: TextStyle(fontSize: 14),
-                    ),
-                  ),
-                ],
-              ),
+    return FadeInWrapper(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const InfoBanner(
+              message:
+                  "La méthode CBR permet de déterminer l'épaisseur d'une chaussée à partir du trafic et de la portance du sol.",
             ),
-          ),
+            const SizedBox(height: 24),
 
-          const SizedBox(height: 24),
-
-          // Titre principal
-          FadeTransition(
-            opacity: _fadeAnimation,
-            child: Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(Icons.calculate, color: Colors.black, size: 24),
-                const SizedBox(width: 12),
-                const Expanded(
+              children: const [
+                Icon(Icons.calculate, color: Colors.black, size: 24),
+                SizedBox(width: 12),
+                Expanded(
                   child: Text(
                     "Méthode CBR",
                     style: TextStyle(
@@ -237,32 +170,19 @@ class _CBRState extends State<CBR> with SingleTickerProviderStateMixin {
                 ),
               ],
             ),
-          ),
+            const SizedBox(height: 8),
 
-          const SizedBox(height: 8),
-
-          // Sous-titre avec animation
-          FadeTransition(
-            opacity: _fadeAnimation,
-            child: Text(
+            Text(
               "Données du projet",
               style: TextStyle(fontSize: 16, color: Colors.grey.shade700),
             ),
-          ),
+            const SizedBox(height: 24),
 
-          const SizedBox(height: 24),
-
-          // Groupe 1 : Type de voies
-          _buildGroup(
-            title: "Type de voies",
-            icon: Icons.route,
-            content: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: const BorderRadius.vertical(bottom: Radius.circular(12)),
-                border: Border.all(color: Colors.grey.shade300),
-              ),
-              child: DropdownButtonFormField<String>(
+            // Groupe 1 : Type de voies
+            GroupContainer(
+              title: "Type de voies",
+              icon: Icons.route,
+              content: DropdownButtonFormField<String>(
                 initialValue: selectedValue,
                 decoration: const InputDecoration(
                   border: InputBorder.none,
@@ -280,92 +200,35 @@ class _CBRState extends State<CBR> with SingleTickerProviderStateMixin {
                 dropdownColor: Colors.white,
               ),
             ),
-          ),
+            const SizedBox(height: 20),
 
-          const SizedBox(height: 20),
+            // 🔹 Génération automatique des GroupContainer
+            Column(
+              children: fieldGroups.map((group) {
+                return Column(
+                  children: [
+                    GroupContainer(
+                      title: group.title,
+                      icon: group.icon,
+                      content: Column(
+                        children: group.fields.map((f) {
+                          return BuildField(
+                            controller: f.controller,
+                            focusNode: f.focusNode,
+                            nextFocus: f.nextFocus,
+                            label: f.label,
+                            icon: f.icon,
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                  ],
+                );
+              }).toList(),
+            ),
 
-          // Groupe 2 : Données trafic
-          _buildGroup(
-            title: "Données trafic",
-            icon: Icons.directions_car,
-            content: _buildFieldGroupWidgets([
-              BuildField(
-                controller: anneeComptage,
-                focusNode: focusAnneeComptage,
-                nextFocus: focusTjmaMin,
-                label: label1,
-                icon: Icons.calendar_month,
-              ),
-              BuildField(
-                controller: tjmaMin,
-                focusNode: focusTjmaMin,
-                nextFocus: focusPl,
-                label: label2,
-                icon: Icons.directions_car,
-              ),
-              BuildField(
-                controller: pl,
-                focusNode: focusPl,
-                nextFocus: focusAnneeMiseEnService,
-                label: label3,
-                icon: Icons.local_shipping,
-              ),
-            ]),
-          ),
-
-          const SizedBox(height: 20),
-
-          // Groupe 3 : Données techniques
-          _buildGroup(
-            title: "Données techniques",
-            icon: Icons.settings,
-            content: _buildFieldGroupWidgets([
-              BuildField(
-                controller: anneeMiseEnService,
-                focusNode: focusAnneeMiseEnService,
-                nextFocus: focusTauxAccroissement,
-                label: label4,
-                icon: Icons.engineering,
-              ),
-              BuildField(
-                controller: tauxAccroissement,
-                focusNode: focusTauxAccroissement,
-                nextFocus: focusDureeDeVie,
-                label: label5,
-                icon: Icons.trending_up,
-              ),
-              BuildField(
-                controller: dureeDeVie,
-                focusNode: focusDureeDeVie,
-                nextFocus: focusICBR,
-                label: label7,
-                icon: Icons.schedule,
-              ),
-            ]),
-          ),
-
-          const SizedBox(height: 20),
-
-          // Groupe 4 : Données sol
-          _buildGroup(
-            title: "Données sol",
-            icon: Icons.landscape,
-            content: _buildFieldGroupWidgets([
-              BuildField(
-                controller: iCBR,
-                focusNode: focusICBR,
-                label: label6,
-                icon: Icons.landscape,
-              ),
-            ]),
-          ),
-
-          const SizedBox(height: 20),
-
-          // Bouton avec animation
-          FadeTransition(
-            opacity: _fadeAnimation,
-            child: Center(
+            Center(
               child: ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blueAccent,
@@ -388,22 +251,21 @@ class _CBRState extends State<CBR> with SingleTickerProviderStateMixin {
                 onPressed: () {
                   checkInputAndValidate(
                     context: context,
-                    anneeComptage: anneeComptage.text,
-                    tjmaMin: tjmaMin.text,
-                    pl: pl.text,
-                    anneeMiseEnService: anneeMiseEnService.text,
-                    tauxAccroissement: tauxAccroissement.text,
-                    iCBR: iCBR.text,
-                    dureeDeVie: dureeDeVie.text,
+                    anneeComptage: anneeController.text,
+                    tjmaMin: tjmaController.text,
+                    pl: plController.text,
+                    anneeMiseEnService: anneeMiseEnServiceController.text,
+                    tauxAccroissement: tauxAccroissementController.text,
+                    dureeDeVie: dureeDeVieController.text,
+                    iCBR: icbrController.text,
                     selectedValue: selectedValue,
                     onValidated: _handleValidated,
                   );
                 },
               ),
             ),
-          ),
-          const SizedBox(height: 20),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -414,7 +276,9 @@ class _CBRState extends State<CBR> with SingleTickerProviderStateMixin {
       children: [
         Expanded(
           child: _selectedIndex == 0
-              ? SingleChildScrollView(child: _buildFormContent())
+              ? Scrollbar(
+                  child: SingleChildScrollView(child: _buildFormContent()),
+                )
               : ResultPageCbr(results: _results),
         ),
         BottomNavigationBar(
