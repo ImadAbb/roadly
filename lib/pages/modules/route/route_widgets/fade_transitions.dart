@@ -8,8 +8,8 @@ class FadeInWrapper extends StatefulWidget {
   const FadeInWrapper({
     super.key,
     required this.child,
-    this.duration = const Duration(milliseconds: 800),
-    this.curve = Curves.easeOut,
+    this.duration = const Duration(milliseconds: 500),
+    this.curve = Curves.easeInOut,
   });
 
   @override
@@ -29,7 +29,7 @@ class _FadeInWrapperState extends State<FadeInWrapper> with SingleTickerProvider
       vsync: this,
     );
 
-    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+    _fadeAnimation = Tween<double>(begin: 0.4, end: 1.0).animate(
       CurvedAnimation(parent: _controller, curve: widget.curve),
     );
 

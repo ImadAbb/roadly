@@ -46,7 +46,6 @@ class _ModuleRouteState extends State<ModuleRoute> {
                 Navigator.pop(context);
               },
             ),
-            title: null,
             flexibleSpace: FlexibleSpaceBar(
               background: _showHeader
                   ? Container(
@@ -95,21 +94,29 @@ class _ModuleRouteState extends State<ModuleRoute> {
 
           /// CHOIX MÉTHODE
           SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: Row(
-                children: [
-                  Expanded(child: _methodCard("CBR", Icons.bar_chart)),
+            child: AnimatedSize(
+              duration: const Duration(milliseconds: 150),
+              curve: Curves.easeInOut,
+              child: _showHeader
+                  ? Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: Row(
+                        children: [
+                          Expanded(child: _methodCard("CBR", Icons.bar_chart)),
 
-                  const SizedBox(width: 12),
+                          const SizedBox(width: 12),
 
-                  Expanded(child: _methodCard("AI", Icons.layers)),
+                          Expanded(child: _methodCard("AI", Icons.layers)),
 
-                  const SizedBox(width: 12),
+                          const SizedBox(width: 12),
 
-                  Expanded(child: _methodCard("CTTP", Icons.architecture)),
-                ],
-              ),
+                          Expanded(
+                            child: _methodCard("CTTP", Icons.architecture),
+                          ),
+                        ],
+                      ),
+                    )
+                  : const SizedBox.shrink(),
             ),
           ),
 
@@ -131,7 +138,9 @@ class _ModuleRouteState extends State<ModuleRoute> {
                   color: Colors.transparent,
                   alignment: Alignment.center,
                   child: Icon(
-                    _showHeader ? Icons.keyboard_arrow_down : Icons.keyboard_arrow_up,
+                    _showHeader
+                        ? Icons.keyboard_arrow_down
+                        : Icons.keyboard_arrow_up,
                     color: Colors.grey,
                     size: 20,
                   ),
@@ -139,18 +148,12 @@ class _ModuleRouteState extends State<ModuleRoute> {
               ),
             ),
 
-          if (selectedMethod == "CBR")
-            const SliverFillRemaining(
-              child: CBR(),
-            ),
+          if (selectedMethod == "CBR") const SliverFillRemaining(child: CBR()),
 
-            if (selectedMethod == "AI")
-            const SliverFillRemaining(
-              child: AsphaltInstute(),
-            ),
+          if (selectedMethod == "AI")
+            const SliverFillRemaining(child: AsphaltInstute()),
         ],
       ),
-
     );
   }
 

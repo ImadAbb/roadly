@@ -108,7 +108,9 @@ class _CBRState extends State<CBR> {
     ];
 
     // 🔹 Relier tous les nextFocus en aplatissant
-    final flatList = fieldGroups.expand((g) => g.fields).toList();
+    final flatList = fieldGroups
+        .expand((g) => g.fields.whereType<FormFieldConfig>())
+        .toList();
     for (int i = 0; i < flatList.length - 1; i++) {
       flatList[i].nextFocus = flatList[i + 1].focusNode;
     }
@@ -125,7 +127,7 @@ class _CBRState extends State<CBR> {
     icbrController.dispose();
 
     for (var group in fieldGroups) {
-      for (var f in group.fields) {
+      for (var f in group.fields.whereType<FormFieldConfig>()) {
         f.focusNode.dispose();
       }
     }
@@ -207,11 +209,11 @@ class _CBRState extends State<CBR> {
               children: fieldGroups.map((group) {
                 return Column(
                   children: [
-                    GroupContainer(
+                            GroupContainer(
                       title: group.title,
                       icon: group.icon,
                       content: Column(
-                        children: group.fields.map((f) {
+                        children: group.fields.whereType<FormFieldConfig>().map((f) {
                           return BuildField(
                             controller: f.controller,
                             focusNode: f.focusNode,
