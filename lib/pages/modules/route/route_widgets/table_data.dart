@@ -169,7 +169,7 @@ class _TableDataFieldState extends State<TableDataField>
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(14),
-            border: Border.all(color: Colors.grey.shade500),
+            border: Border.all(color: Colors.transparent),
           ),
           child: Table(
             columnWidths: Map.fromIterables(

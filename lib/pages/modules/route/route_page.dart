@@ -4,7 +4,8 @@ import 'package:roadly/pages/modules/route/asphalt_institute/asphalt_institute.d
 import 'package:roadly/pages/modules/route/cbr/cbr.dart';
 
 class ModuleRoute extends StatefulWidget {
-  const ModuleRoute({super.key});
+  final String? initialMethod;
+  const ModuleRoute({super.key, this.initialMethod});
 
   @override
   State<ModuleRoute> createState() => _ModuleRouteState();
@@ -15,6 +16,15 @@ class _ModuleRouteState extends State<ModuleRoute> {
   bool _showHeader = true;
 
   final ScrollController scrollController = ScrollController();
+
+    @override
+  void initState() {
+    super.initState();
+    if (widget.initialMethod != null) {
+      selectedMethod = widget.initialMethod;
+      _showHeader = false;
+    }
+  }
 
   bool get _hasSelectedMethod => selectedMethod != null;
 

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:roadly/assets/widgets/build_field.dart';
+import 'package:roadly/pages/modules/route/asphalt_institute/asphalt_checkinput.dart';
+import 'package:roadly/pages/modules/route/asphalt_institute/asphalt_model.dart';
 import 'package:roadly/pages/modules/route/asphalt_institute/asphalt_results.dart';
 import 'package:roadly/pages/modules/route/route_widgets/fade_transitions.dart';
 import 'package:roadly/pages/modules/route/route_widgets/from_field_config.dart';
@@ -8,7 +10,9 @@ import 'package:roadly/pages/modules/route/route_widgets/table_data.dart';
 import 'package:roadly/pages/modules/route/route_widgets/info_banner.dart';
 
 class AsphaltInstute extends StatefulWidget {
-  const AsphaltInstute({super.key});
+  final void Function(AsphaltResults results)? onValidated;
+
+  const AsphaltInstute({super.key, this.onValidated});
 
   @override
   State<AsphaltInstute> createState() => _AsphaltInstuteState();
@@ -16,21 +20,26 @@ class AsphaltInstute extends StatefulWidget {
 
 class _AsphaltInstuteState extends State<AsphaltInstute>
     with SingleTickerProviderStateMixin {
-        String? selectedValue;
+  AsphaltResults? _results;
 
-//final Controller & Strings
-      final List<String> options = [
+  String? selectedValue;
+
+  //final Controller & Strings
+  final List<String> options = [
     "Chaussée unidirectionnelle à 2 voies",
     "Chaussée unidirectionnelle à 3 voies",
     "Chaussée bidirectionnelle à 2 voies",
     "Chaussée bidirectionnelle à 3 voies",
   ];
-  final TextEditingController tjmaController = TextEditingController();
-  final TextEditingController anneeMiseEnServiceController = TextEditingController();
-  final TextEditingController tauxAccroissementController = TextEditingController();
+  final TextEditingController tjmaMinController = TextEditingController();
+  final TextEditingController anneeMiseEnServiceController =
+      TextEditingController();
+  final TextEditingController tauxAccroissementController =
+      TextEditingController();
   final TextEditingController dureeDeVieController = TextEditingController();
   final TextEditingController icbrController = TextEditingController();
-
+  final TextEditingController plPercentController = TextEditingController();
+  final TextEditingController anneeComptageController = TextEditingController();
   final TableFieldController _plTrafficController = TableFieldController(
     initialRows: [
       ["43", "7", "14"],
@@ -47,7 +56,6 @@ class _AsphaltInstuteState extends State<AsphaltInstute>
     super.initState();
 
     fieldGroups = [
-
       FieldGroup(
         title: "Données du trafic",
         icon: Icons.directions_car,
@@ -55,13 +63,13 @@ class _AsphaltInstuteState extends State<AsphaltInstute>
           FormFieldConfig(
             label: "Année De Comptage",
             icon: Icons.calendar_month,
-            controller: TextEditingController(),
+            controller: anneeComptageController,
             focusNode: FocusNode(),
           ),
           FormFieldConfig(
             label: "TJMA à l'année de comptage",
             icon: Icons.directions_car,
-            controller: TextEditingController(),
+            controller: tjmaMinController,
             focusNode: FocusNode(),
           ),
         ],
@@ -97,12 +105,16 @@ class _AsphaltInstuteState extends State<AsphaltInstute>
           FormFieldConfig(
             label: "Proportion de poids Lourds (%)",
             icon: Icons.local_shipping,
-            controller: TextEditingController(),
+            controller: plPercentController,
             focusNode: FocusNode(),
           ),
           TableFieldConfig(
             label: "Répartition du trafic Poids Lourds",
-            columns: const ["Pourcentage", "Essieux simples", "Essieux tandems"],
+            columns: const [
+              "Pourcentage",
+              "Essieux simples",
+              "Essieux tandems",
+            ],
             suffixes: const ["%", "", ""],
             controller: _plTrafficController,
             onChanged: (rows) {
@@ -131,7 +143,8 @@ class _AsphaltInstuteState extends State<AsphaltInstute>
         .toList();
 
     for (int i = 0; i < focusables.length - 1; i++) {
-      final nextFocusNode = (focusables[i + 1] as dynamic).focusNode as FocusNode;
+      final nextFocusNode =
+          (focusables[i + 1] as dynamic).focusNode as FocusNode;
       if (focusables[i] is FormFieldConfig) {
         (focusables[i] as FormFieldConfig).nextFocus = nextFocusNode;
       }
@@ -151,6 +164,14 @@ class _AsphaltInstuteState extends State<AsphaltInstute>
       }
     }
     super.dispose();
+  }
+
+  void _handleValidated(AsphaltResults results) {
+    setState(() {
+      _results = results;
+      _selectedIndex = 1;
+    });
+    widget.onValidated?.call(results);
   }
 
   Widget _buildFormContent() {
@@ -221,8 +242,7 @@ class _AsphaltInstuteState extends State<AsphaltInstute>
 
             //  Génération automatique des GroupContainer
             Column(
-              children:
-              fieldGroups.map((group) {
+              children: fieldGroups.map((group) {
                 return Column(
                   children: [
                     GroupContainer(
@@ -283,9 +303,19 @@ class _AsphaltInstuteState extends State<AsphaltInstute>
                 icon: const Icon(Icons.check_circle, size: 20),
                 label: const Text("Valider et voir les résultats"),
                 onPressed: () {
-                  setState(() {
-                    _selectedIndex = 1;
-                  });
+                  asphaltCheckInputAndValidate(
+                    context: context,
+                    anneeComptage: anneeComptageController.text,
+                    tjmaMin: tjmaMinController.text,
+                    plPercent: plPercentController.text, // champ global PL (%)
+                    pl: _plTrafficController.rows, // tableau brut
+                    anneeMiseEnService: anneeMiseEnServiceController.text,
+                    tauxAccroissement: tauxAccroissementController.text,
+                    iCBR: icbrController.text,
+                    dureeDeVie: dureeDeVieController.text,
+                    selectedValue: selectedValue,
+                    onValidated: _handleValidated,
+                  );
                 },
               ),
             ),
@@ -304,13 +334,7 @@ class _AsphaltInstuteState extends State<AsphaltInstute>
               ? Scrollbar(
                   child: SingleChildScrollView(child: _buildFormContent()),
                 )
-              : AsphaltResults(onBackToForm: () {
-                setState(() {
-                  _selectedIndex = 0;
-                });
-              },
-                  //results: _results
-                ),
+              : ResultPageAsphalt(results: _results),
         ),
         BottomNavigationBar(
           currentIndex: _selectedIndex,

@@ -85,13 +85,13 @@ class StartPage extends StatelessWidget {
               ),
             ),
             SliverPadding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               sliver: SliverGrid(
                 gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                   maxCrossAxisExtent: 320,
                   crossAxisSpacing: 16,
                   mainAxisSpacing: 16,
-                  childAspectRatio: 0.90,
+                  childAspectRatio: 0.8,
                 ),
                 delegate: SliverChildBuilderDelegate(
                   (context, i) => GestureDetector(
@@ -280,10 +280,30 @@ class StartPage extends StatelessWidget {
   // ── Accès rapide ─────────────────────────────────────
   Widget _buildQuickAccess(BuildContext context) {
     final items = [
-      (icon: Icons.bar_chart, label: 'CBR', color: Colors.orange),
-      (icon: Icons.architecture, label: 'Poutres', color: Colors.green),
-      (icon: Icons.calculate_outlined, label: 'Formules', color: Colors.blue),
-      (icon: Icons.menu_book_outlined, label: 'Cours', color: Colors.purple),
+      (
+        icon: Icons.bar_chart,
+        label: 'CBR',
+        color: Colors.orange,
+        methode: 'CBR',
+      ),
+      (
+        icon: Icons.architecture,
+        label: 'Poutres',
+        color: Colors.green,
+        methode: null,
+      ),
+      (
+        icon: Icons.calculate_outlined,
+        label: 'Formules',
+        color: Colors.blue,
+        methode: null,
+      ),
+      (
+        icon: Icons.menu_book_outlined,
+        label: 'Cours',
+        color: Colors.purple,
+        methode: null,
+      ),
     ];
 
     return Padding(
@@ -324,26 +344,40 @@ class StartPage extends StatelessWidget {
               return Expanded(
                 child: Padding(
                   padding: const EdgeInsets.only(right: 8),
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(color: Colors.grey.shade300),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Column(
-                      children: [
-                        Icon(q.icon, color: q.color, size: 22),
-                        const SizedBox(height: 6),
-                        Text(
-                          q.label,
-                          style: const TextStyle(
-                            color: Colors.black87,
-                            fontSize: 11,
-                            fontWeight: FontWeight.w600,
+                  child: GestureDetector(
+                    onTap: () {
+                      if (q.label == "CBR") {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                const ModuleRoute(initialMethod: "CBR"),
                           ),
-                        ),
-                      ],
+                        );
+                      }
+                      // sinon autres actions...
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(color: Colors.grey.shade300),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Column(
+                        children: [
+                          Icon(q.icon, color: q.color, size: 22),
+                          const SizedBox(height: 6),
+                          Text(
+                            q.label,
+                            style: const TextStyle(
+                              color: Colors.black87,
+                              fontSize: 11,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
