@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:roadly/pages/modules/ponts/beam_editor_pro/beam_editor_main.dart';
 import 'package:roadly/pages/modules/ponts/beam_editor_v1/ponts_main.dart';
 import 'package:roadly/pages/modules/ponts/beam_editor_v4/beam_editor_screen.dart';
 
@@ -28,28 +29,19 @@ class ChooseBeta extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Colors.orange.shade50,
                 borderRadius: BorderRadius.circular(18),
-                border: Border.all(
-                  color: Colors.orange.shade200,
-                ),
+                border: Border.all(color: Colors.orange.shade200),
               ),
               child: const Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Icon(
-                    Icons.info_outline,
-                    color: Colors.orange,
-                    size: 28,
-                  ),
+                  Icon(Icons.info_outline, color: Colors.orange, size: 28),
                   SizedBox(width: 14),
                   Expanded(
                     child: Text(
                       "Les deux versions sont actuellement en bêta.\n\n"
                       "• La version Standard est plus stable et recommandée pour une utilisation normal.\n\n"
                       "• La version Claude propose davantage de fonctionnalités mais peut encore contenir quelques erreurs.",
-                      style: TextStyle(
-                        fontSize: 15,
-                        height: 1.5,
-                      ),
+                      style: TextStyle(fontSize: 15, height: 1.5),
                     ),
                   ),
                 ],
@@ -66,9 +58,7 @@ class ChooseBeta extends StatelessWidget {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                    builder: (_) => const ModulePonts(),
-                  ),
+                  MaterialPageRoute(builder: (_) => const ModulePonts()),
                 );
               },
             ),
@@ -83,9 +73,21 @@ class ChooseBeta extends StatelessWidget {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                    builder: (_) => const BeamEditorScreen(),
-                  ),
+                  MaterialPageRoute(builder: (_) => const BeamEditorScreen()),
+                );
+              },
+            ),
+            const SizedBox(height: 18),
+
+            _VersionCard(
+              icon: Icons.monetization_on,
+              title: "Version Pro",
+              subtitle: "Money money moeny",
+              color: Colors.green,
+              onTap: (){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const BeamEditorPro()),
                 );
               },
             ),
@@ -130,10 +132,7 @@ class _VersionCard extends StatelessWidget {
                 offset: const Offset(0, 6),
               ),
             ],
-            border: Border.all(
-              color: color.withValues(alpha: .25),
-              width: 1.5,
-            ),
+            border: Border.all(color: color.withValues(alpha: .25), width: 1.5),
           ),
           child: Row(
             children: [
@@ -144,11 +143,7 @@ class _VersionCard extends StatelessWidget {
                   color: color.withValues(alpha: .12),
                   borderRadius: BorderRadius.circular(18),
                 ),
-                child: Icon(
-                  icon,
-                  color: color,
-                  size: 34,
-                ),
+                child: Icon(icon, color: color, size: 34),
               ),
 
               const SizedBox(width: 20),
@@ -176,10 +171,7 @@ class _VersionCard extends StatelessWidget {
                 ),
               ),
 
-              Icon(
-                Icons.arrow_forward_ios_rounded,
-                color: color,
-              ),
+              Icon(Icons.arrow_forward_ios_rounded, color: color),
             ],
           ),
         ),
