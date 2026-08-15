@@ -21,7 +21,7 @@ class ResultCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       decoration: BoxDecoration(
-        color: _blue.withOpacity(0.04),
+        color: _blue.withValues(alpha: 0.04),
         borderRadius: BorderRadius.circular(14),
       ),
       child: Row(
@@ -30,7 +30,7 @@ class ResultCard extends StatelessWidget {
             width: 38,
             height: 38,
             decoration: BoxDecoration(
-              color: _blue.withOpacity(0.12),
+              color: _blue.withValues(alpha: 0.12),
               borderRadius: BorderRadius.circular(10),
             ),
             child: Icon(icon, color: _blue, size: 19),

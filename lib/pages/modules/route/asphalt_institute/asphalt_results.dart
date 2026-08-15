@@ -123,12 +123,12 @@ class ResultPageAsphalt extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [_blue, _blue.withOpacity(0.75)],
+          colors: [_blue, _blue.withValues(alpha: 0.75)],
         ),
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: _blue.withOpacity(0.25),
+            color: _blue.withValues(alpha: 0.25),
             blurRadius: 16,
             offset: const Offset(0, 6),
           ),
@@ -140,7 +140,7 @@ class ResultPageAsphalt extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.18),
+              color: Colors.white.withValues(alpha: 0.18),
               borderRadius: BorderRadius.circular(14),
             ),
             child: const Icon(Icons.layers_rounded, color: Colors.white, size: 26),
@@ -155,7 +155,7 @@ class ResultPageAsphalt extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w700,
-                    color: Colors.white.withOpacity(0.85),
+                    color: Colors.white.withValues(alpha: 0.85),
                     letterSpacing: 0.8,
                   ),
                 ),
@@ -175,7 +175,7 @@ class ResultPageAsphalt extends StatelessWidget {
                       'DTN',
                       style: TextStyle(
                         fontSize: 12,
-                        color: Colors.white.withOpacity(0.85),
+                        color: Colors.white.withValues(alpha: 0.85),
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -211,7 +211,7 @@ class ResultPageAsphalt extends StatelessWidget {
         border: Border.all(color: const Color(0xFFE2E8F0)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.03),
+            color: Colors.black.withValues(alpha: 0.03),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -252,13 +252,13 @@ class ResultPageAsphalt extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
       decoration: BoxDecoration(
-        color: _blue.withOpacity(0.06),
+        color: _blue.withValues(alpha: 0.06),
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: _blue.withOpacity(0.15)),
+        border: Border.all(color: _blue.withValues(alpha: 0.15)),
       ),
       child: Row(
         children: [
-          Icon(Icons.hourglass_top_rounded, size: 18, color: _blue.withOpacity(0.8)),
+          Icon(Icons.hourglass_top_rounded, size: 18, color: _blue.withValues(alpha: 0.8)),
           const SizedBox(width: 10),
           const Expanded(
             child: Text(
