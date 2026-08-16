@@ -35,7 +35,6 @@ class _AppuisTabState extends State<AppuisTab> {
     super.initState();
     _positionController = TextEditingController(text: '');
     _focusNode = FocusNode();
-    _selectedSupportType = SupportType.simple;
 
     _focusNode.addListener(() {
       setState(() {
@@ -122,7 +121,8 @@ class _AppuisTabState extends State<AppuisTab> {
 
     // Pour les autres types d'appuis, valider la position saisie
     final raw = _positionController.text.trim();
-    final normalized = raw.isEmpty ? '0.00' : raw;
+    // Si vide ou "0.00", traiter comme 0.0
+    final normalized = (raw.isEmpty || raw == '0.00') ? '0.0' : raw;
     final parsed = double.tryParse(normalized.replaceAll(',', '.'));
 
     if (parsed == null || parsed < 0 || parsed > widget.beamLength) {
@@ -192,7 +192,7 @@ class _AppuisTabState extends State<AppuisTab> {
                     ),
                     const SizedBox(height: 12),
                     SupportTypeSelector(
-                      selectedType: _selectedSupportType ?? SupportType.simple,
+                      selectedType: _selectedSupportType,
                       onSelected: _startEditingSupport,
                     ),
                     const SizedBox(height: 12),

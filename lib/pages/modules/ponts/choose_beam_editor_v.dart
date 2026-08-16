@@ -38,9 +38,10 @@ class ChooseBeta extends StatelessWidget {
                   SizedBox(width: 14),
                   Expanded(
                     child: Text(
-                      "Les deux versions sont actuellement en bêta.\n\n"
-                      "• La version Standard est plus stable et recommandée pour une utilisation normal.\n\n"
-                      "• La version Claude propose davantage de fonctionnalités mais peut encore contenir quelques erreurs.",
+                      "Les trois versions sont actuellement en bêta.\n\n"
+                      "• La version Standard est pour les tests.\n\n"
+                      "• La version Claude propose davantage de fonctionnalités mais peut encore contenir quelques erreurs.\n\n"
+                      "• La version Pro est en cours de conception et est plus avancée.",
                       style: TextStyle(fontSize: 15, height: 1.5),
                     ),
                   ),

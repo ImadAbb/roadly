@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:roadly/pages/modules/ponts/beam_editor_pro/beam_supports/support_classes.dart';
 
 class SupportTypeSelector extends StatelessWidget {
-  final SupportType selectedType;
+  final SupportType? selectedType;
   final ValueChanged<SupportType> onSelected;
 
   const SupportTypeSelector({
