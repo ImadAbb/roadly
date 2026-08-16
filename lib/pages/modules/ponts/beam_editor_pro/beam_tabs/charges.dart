@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 
 class Chargestab extends StatefulWidget {
-  const Chargestab({super.key});
+  final double beamLength;
+
+  const Chargestab({
+    super.key,
+    required this.beamLength,
+  });
 
   @override
   State<Chargestab> createState() => _ChargestabState();

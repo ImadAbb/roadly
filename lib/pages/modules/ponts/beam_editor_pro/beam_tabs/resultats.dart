@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 
 class ResultatsTab extends StatefulWidget {
-  const ResultatsTab({super.key});
+  final double beamLength;
+
+  const ResultatsTab({
+    super.key,
+    required this.beamLength,
+  });
 
   @override
   State<ResultatsTab> createState() => _ResultatsTabState();

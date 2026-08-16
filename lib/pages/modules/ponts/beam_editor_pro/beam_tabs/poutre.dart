@@ -1,17 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:roadly/pages/modules/ponts/beam_editor_pro/beam_supports/support_classes.dart';
 import 'package:roadly/pages/modules/ponts/beam_editor_pro/drawings/beam_drawing.dart';
 import 'package:roadly/pages/modules/ponts/beam_editor_pro/widgets_beam_editor_pro/numeric_keypad.dart';
 
 class PoutreTab extends StatefulWidget {
-  const PoutreTab({super.key});
+  final double beamLength;
+  final ValueChanged<double> onBeamLengthChanged;
+  final int supportCount;
+  final List<BeamSupport> supports;
+
+  const PoutreTab({
+    super.key,
+    required this.beamLength,
+    required this.onBeamLengthChanged,
+    required this.supportCount,
+    required this.supports,
+  });
 
   @override
   State<PoutreTab> createState() => _PoutreTabState();
 }
 
 class _PoutreTabState extends State<PoutreTab> {
-  double beamLength = 10.0;
+  int loadNumber = 1;
   late TextEditingController beamLenghtController;
   late FocusNode _focusNode;
 
@@ -20,15 +32,25 @@ class _PoutreTabState extends State<PoutreTab> {
   @override
   void initState() {
     super.initState();
-    beamLenghtController = TextEditingController(text: beamLength.toString());
+    beamLenghtController = TextEditingController(
+      text: widget.beamLength.toString(),
+    );
     _focusNode = FocusNode();
 
-    // Seul setState nécessaire : il pilote l'affichage clavier <-> dessin.
     _focusNode.addListener(() {
       setState(() {
         _hasFocus = _focusNode.hasFocus;
       });
     });
+  }
+
+  @override
+  void didUpdateWidget(covariant PoutreTab oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.beamLength != widget.beamLength &&
+        beamLenghtController.text != widget.beamLength.toString()) {
+      beamLenghtController.text = widget.beamLength.toString();
+    }
   }
 
   @override
@@ -38,11 +60,25 @@ class _PoutreTabState extends State<PoutreTab> {
     super.dispose();
   }
 
-  // Seul endroit où beamLength change : le bouton "Appliquer".
   void _applyLength() {
-    final parsed = double.tryParse(beamLenghtController.text.replaceAll(',', '.'));
+    final parsed = double.tryParse(
+      beamLenghtController.text.replaceAll(',', '.'),
+    );
     if (parsed != null && parsed > 0) {
-      setState(() => beamLength = parsed);
+      widget.onBeamLengthChanged(parsed);
+      setState(() {
+      for (int i = 0; i < widget.supports.length; i++) {
+        final support = widget.supports[i];
+        if (support.type == SupportType.encastrement) {
+          widget.supports[i] = BeamSupport(
+            id: support.id,
+            type: SupportType.encastrement,
+            encastrementSide: support.encastrementSide,
+            position: support.encastrementSide == true ? parsed : 0,
+          );
+        }
+      }
+    });
     }
   }
 
@@ -61,6 +97,7 @@ class _PoutreTabState extends State<PoutreTab> {
               ),
               height: double.infinity,
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
                     decoration: BoxDecoration(
@@ -90,7 +127,9 @@ class _PoutreTabState extends State<PoutreTab> {
                         Expanded(
                           child: TextField(
                             inputFormatters: [
-                              FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]')),
+                              FilteringTextInputFormatter.allow(
+                                RegExp(r'[0-9.,]'),
+                              ),
                             ],
                             controller: beamLenghtController,
                             focusNode: _focusNode,
@@ -111,6 +150,17 @@ class _PoutreTabState extends State<PoutreTab> {
                       ],
                     ),
                   ),
+
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text("Nombre d'appuis: ${widget.supportCount}"),
+                  ),
+
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text("Nombre de charges: $loadNumber"),
+                  ),
+
                   const Spacer(),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -151,10 +201,13 @@ class _PoutreTabState extends State<PoutreTab> {
                 border: Border.all(color: Colors.black, width: 2),
               ),
               child: Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(24.0),
                 child: _hasFocus
                     ? RoadlyNumericKeypad(controller: beamLenghtController)
-                    : BeamDrawing(beamLength: beamLength),
+                    : BeamDrawing(
+                        beamLength: widget.beamLength,
+                        supports: widget.supports,
+                      ),
               ),
             ),
           ),
