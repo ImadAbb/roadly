@@ -13,6 +13,7 @@ dependencies:
   lottie: ^3.3.3
   keyboard_actions: ^4.2.1
   path_provider: ^2.1.6
+  provider: ^6.1.5+1
 
 dev_dependencies:
   flutter_test:

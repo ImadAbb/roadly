@@ -75,7 +75,7 @@ class _TabOptionsWidgetState extends State<TabOptionsWidget> {
                         // AVANT : 10 / 7
                         padding: const EdgeInsets.symmetric(
                           horizontal: 8,
-                          vertical: 6,
+                          vertical: 12,
                         ),
 
                         decoration: BoxDecoration(

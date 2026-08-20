@@ -38,6 +38,7 @@ class Beam {
         id: _generateSupportId(),
         position: support.position,
         type: support.type,
+        isEncastrementRightSide: support.isEncastrementRightSide,
       );
     }
 

@@ -1,40 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:roadly/pages/modules/ponts/beam_editor_vpro/pages/settings/providers/interface_settings_provider.dart';
 import 'package:roadly/pages/modules/ponts/beam_editor_vpro/widgets/settings_widgets/section_title.dart';
 import 'package:roadly/pages/modules/ponts/beam_editor_vpro/widgets/settings_widgets/settings_container.dart';
 
-
-class InterfaceSettings extends StatefulWidget {
+class InterfaceSettings extends StatelessWidget {
   const InterfaceSettings({super.key});
 
   @override
-  State<InterfaceSettings> createState() => _InterfaceSettingsState();
-}
-
-class _InterfaceSettingsState extends State<InterfaceSettings> {
-  bool integratedKeyboard = false;
-
-  @override
   Widget build(BuildContext context) {
+    final settings = context.watch<InterfaceSettingsProvider>();
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SectionTitle(
-          title: "INTERFACE",
-        ),
-
+        const SectionTitle(title: "INTERFACE"),
         const SizedBox(height: 8),
-
         SettingsContainer(
           child: SwitchListTile(
             contentPadding: const EdgeInsets.symmetric(
               horizontal: 14,
               vertical: 4,
             ),
-            value: integratedKeyboard,
+            value: settings.afficherValeursCharges,
             onChanged: (value) {
-              setState(() {
-                integratedKeyboard = value;
-              });
+              context.read<InterfaceSettingsProvider>().setAfficherValeursCharges(value);
             },
             secondary: Container(
               width: 38,
@@ -50,7 +40,7 @@ class _InterfaceSettingsState extends State<InterfaceSettings> {
               ),
             ),
             title: const Text(
-              "Clavier intégré",
+              "Charges",
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
@@ -58,13 +48,13 @@ class _InterfaceSettingsState extends State<InterfaceSettings> {
               ),
             ),
             subtitle: const Text(
-              "Afficher le clavier virtuel",
+              "Afficher les valeurs des charges sur le diagramme",
               style: TextStyle(
                 fontSize: 12,
                 color: Color(0xFF64748B),
               ),
             ),
-            activeThumbColor: Color(0xFF2563EB),
+            activeThumbColor: const Color(0xFF2563EB),
           ),
         ),
       ],

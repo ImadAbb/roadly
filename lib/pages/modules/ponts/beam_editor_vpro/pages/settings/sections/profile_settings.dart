@@ -104,7 +104,7 @@ class ProfileSettings extends StatelessWidget {
     );
 
     beam.addSupport(
-      Support(id: "support_super", position: 10, type: SupportType.encastrement_),
+      Support(id: "support_super", position: beam.beamLenght, type: SupportType.encastrement_, isEncastrementRightSide: true),
     );
 
     beam.addSupport(

@@ -80,59 +80,70 @@ class SupportsTab extends StatelessWidget {
                     beam.removeSupport(removedSupport);
                     onBeamChanged();
 
-                    ScaffoldMessenger.of(context)
-                      ..hideCurrentSnackBar()
-                      ..showSnackBar(
-                        SnackBar(
-                          duration: const Duration(seconds: 4),
-                          behavior: SnackBarBehavior.floating,
+                    ScaffoldMessenger.of(context).hideCurrentSnackBar();
 
-                          backgroundColor: const Color(0xFF1E293B),
-                          elevation: 0,
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        duration: const Duration(seconds: 4),
+                        behavior: SnackBarBehavior.floating,
 
-                          margin: const EdgeInsets.fromLTRB(12, 0, 12, 12),
+                        backgroundColor: const Color(0xFF1E293B),
+                        elevation: 0,
 
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
+                        margin: const EdgeInsets.fromLTRB(12, 0, 12, 12),
 
-                          content: Row(
-                            children: [
-                              const Icon(
-                                Icons.delete_outline_rounded,
-                                size: 18,
-                                color: Color(0xFFCBD5E1),
-                              ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
 
-                              const SizedBox(width: 9),
+                        content: Row(
+                          children: [
+                            const Icon(
+                              Icons.delete_outline_rounded,
+                              size: 18,
+                              color: Color(0xFFCBD5E1),
+                            ),
 
-                              Expanded(
-                                child: Text(
-                                  'Appui "${removedSupport.id}" supprimé',
-                                  style: const TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.white,
-                                  ),
+                            const SizedBox(width: 9),
+
+                            Expanded(
+                              child: Text(
+                                'Appui "${removedSupport.id}" supprimé',
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.white,
                                 ),
                               ),
-                            ],
-                          ),
+                            ),
 
-                          action: SnackBarAction(
-                            label: "ANNULER",
-                            textColor: const Color(0xFF60A5FA),
-                            onPressed: () {
-                              beam.supports.insert(
-                                removedIndex.clamp(0, beam.supports.length),
-                                removedSupport,
-                              );
+                            TextButton(
+                              onPressed: () {
+                                beam.supports.insert(
+                                  removedIndex.clamp(0, beam.supports.length),
+                                  removedSupport,
+                                );
 
-                              onBeamChanged();
-                            },
-                          ),
+                                onBeamChanged();
+                                ScaffoldMessenger.of(
+                                  context,
+                                ).hideCurrentSnackBar();
+                              },
+                              style: TextButton.styleFrom(
+                                foregroundColor: const Color(0xFF60A5FA),
+                              ),
+                              child: const Text(
+                                "ANNULER",
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                      );
+                      ),
+                    );
                   },
 
                   // ─────────────────────────────
