@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:roadly/pages/modules/ponts/beam_editor_vpro/beam_canvas/beam_painer/beam_painter_chain_dimensions.dart';
 
 import 'package:roadly/pages/modules/ponts/beam_editor_vpro/models/beam_classes.dart';
+import 'package:roadly/pages/modules/ponts/beam_editor_vpro/models/load_classes.dart';
 import 'package:roadly/pages/modules/ponts/beam_editor_vpro/pages/settings/providers/interface_settings_provider.dart';
 
 import 'beam_painter_beam.dart';
@@ -16,7 +18,10 @@ class BeamDiagram extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final afficherValeursCharges = context.watch<InterfaceSettingsProvider>().afficherValeursCharges;
+    final settings = context.watch<InterfaceSettingsProvider>();
+
+    final afficherValeursCharges = settings.afficherValeursCharges;
+    final afficherCotations = settings.afficherCotations;
     return Container(
       width: double.infinity,
       height: double.infinity,
@@ -26,7 +31,9 @@ class BeamDiagram extends StatelessWidget {
       ),
       child: AspectRatio(
         aspectRatio: 1.8,
-        child: CustomPaint(painter: BeamPainter(beam, afficherValeursCharges)),
+        child: CustomPaint(
+          painter: BeamPainter(beam, afficherValeursCharges, afficherCotations),
+        ),
       ),
     );
   }
@@ -35,8 +42,9 @@ class BeamDiagram extends StatelessWidget {
 class BeamPainter extends CustomPainter {
   final Beam beam;
   final bool afficherValeursCharges;
+  final bool afficherCotations;
 
-  BeamPainter(this.beam, this.afficherValeursCharges);
+  BeamPainter(this.beam, this.afficherValeursCharges, this.afficherCotations);
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -65,13 +73,35 @@ class BeamPainter extends CustomPainter {
       drawLoad(canvas, load, xFromPosition, beamY, afficherValeursCharges);
     }
 
-    drawDimension(
-      canvas,
-      xFromPosition(0),
-      xFromPosition(length),
-      beamY,
-      length,
-    );
+    if (afficherCotations) {
+      drawDimension(
+        canvas,
+        xFromPosition(0),
+        xFromPosition(length),
+        beamY,
+        length,
+      );
+      final dimensionPositions = <double>[];
+
+      for (final support in beam.supports) {
+        dimensionPositions.add(support.position);
+      }
+
+      for (final load in beam.loads) {
+        dimensionPositions.add(load.position);
+
+        if (load is DistributedLoad) {
+          dimensionPositions.add(load.positionEnd);
+        }
+      }
+      drawChainDimensions(
+        canvas,
+        xFromPosition,
+        beamY,
+        length,
+        dimensionPositions,
+      );
+    }
   }
 
   @override

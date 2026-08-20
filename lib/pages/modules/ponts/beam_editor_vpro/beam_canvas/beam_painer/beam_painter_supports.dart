@@ -55,7 +55,11 @@ void _drawRotule(Canvas canvas, double x, double y) {
     ..color = supportColor
     ..style = PaintingStyle.stroke
     ..strokeWidth = 2;
-  canvas.drawCircle(Offset(x, y + 11), 10, strokePaint);
+  final hideInsideRotule = Paint()
+  ..color = Colors.white
+  ..strokeWidth = 4.9;
+  canvas.drawCircle(Offset(x, y), 8, strokePaint);
+  canvas.drawLine(Offset(x - 7, y), Offset(x + 7, y), hideInsideRotule);
   _drawSupportBase(canvas, x - 13, x + 13, y + 25);
 }
 

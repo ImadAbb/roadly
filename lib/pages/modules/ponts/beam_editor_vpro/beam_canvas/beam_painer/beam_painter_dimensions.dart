@@ -9,7 +9,7 @@ void drawDimension(
   double beamY,
   double length,
 ) {
-  final y = beamY + 52;
+  final y = beamY + 68;
   final paint = Paint()
     ..color = dimensionColor
     ..strokeWidth = 1;
@@ -36,7 +36,7 @@ void drawDimension(
 
   final textPainter = TextPainter(
     text: TextSpan(
-      text: '${length.toStringAsFixed(2)} m',
+      text: 'L = ${length.toStringAsFixed(2)} m',
       style: const TextStyle(
         color: dimensionColor,
         fontSize: 10,
