@@ -7,6 +7,9 @@ class InterfaceSettingsProvider extends ChangeNotifier {
   bool _afficherCotations = true;
   bool get afficherCotations => _afficherCotations;
 
+  bool _afficherReactions = true;
+  bool get afficherReactions => _afficherReactions;
+
   void setAfficherValeursCharges(bool value) {
     _afficherValeursCharges = value;
     notifyListeners();
@@ -14,6 +17,11 @@ class InterfaceSettingsProvider extends ChangeNotifier {
 
   void setAfficherCotations(bool value) {
     _afficherCotations = value;
+    notifyListeners();
+  }
+
+  void setAfficherReactions(bool value) {
+    _afficherReactions = value;
     notifyListeners();
   }
 }

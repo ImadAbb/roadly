@@ -33,17 +33,16 @@ class _BeamEditorProState extends State<BeamEditorPro> {
       create: (_) => InterfaceSettingsProvider(),
       child: Scaffold(
         endDrawer: ProSettings(beam: beam, onBeamChanged: _onBeamChanged),
-      
+
         appBar: AppBar(
+          iconTheme: const IconThemeData(color: Color(0xFFDCE5F3)),
+
           toolbarHeight: 48,
-      
           elevation: 0,
           scrolledUnderElevation: 0,
-      
           backgroundColor: const Color.fromARGB(255, 83, 113, 212),
-      
           titleSpacing: 16,
-      
+
           title: const Text(
             "Beamy",
             style: TextStyle(
@@ -53,9 +52,8 @@ class _BeamEditorProState extends State<BeamEditorPro> {
               letterSpacing: -0.2,
             ),
           ),
-      
           centerTitle: true,
-      
+
           actions: [
             Builder(
               builder: (context) => Container(
@@ -83,14 +81,14 @@ class _BeamEditorProState extends State<BeamEditorPro> {
             ),
           ],
         ),
-      
+
         body: Row(
           children: [
             Expanded(
               flex: 30,
               child: ProTabs(beam: beam, onBeamChanged: _onBeamChanged),
             ),
-      
+
             Expanded(flex: 70, child: BeamDiagram(beam: beam)),
           ],
         ),

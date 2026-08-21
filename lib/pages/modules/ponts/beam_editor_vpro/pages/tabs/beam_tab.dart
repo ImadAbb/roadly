@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:roadly/pages/modules/ponts/beam_editor_vpro/models/beam_classes.dart';
+import 'package:roadly/pages/modules/ponts/beam_editor_vpro/solver/hyperstaticity.dart';
 import 'package:roadly/pages/modules/ponts/beam_editor_vpro/widgets/tab_widgets/pro_card.dart';
 import 'package:roadly/pages/modules/ponts/beam_editor_vpro/widgets/tab_widgets/pro_info_row.dart';
 import 'package:roadly/pages/modules/ponts/beam_editor_vpro/widgets/tab_widgets/pro_tab_scaffold.dart';
@@ -18,14 +19,18 @@ class BeamTab extends StatefulWidget {
 class _BeamTabState extends State<BeamTab> {
   @override
   Widget build(BuildContext context) {
+    final staticType = getStaticSystemType(widget.beam);
+    final h = calculateDegreeOfHyperstaticity(widget.beam);
     return ProTabScaffold(
       title: "Poutre",
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              "Informations générales",
+            Text(
+              "Informations générales,\n"
+              "Poutre : ${staticType.name}.\n"
+              "h = $h",
               style: TextStyle(fontSize: 11, color: Color(0xFF64748B)),
             ),
 

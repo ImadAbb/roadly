@@ -6,9 +6,11 @@ import 'package:roadly/pages/modules/ponts/beam_editor_vpro/models/beam_classes.
 import 'package:roadly/pages/modules/ponts/beam_editor_vpro/models/load_classes.dart';
 import 'package:roadly/pages/modules/ponts/beam_editor_vpro/pages/settings/providers/interface_settings_provider.dart';
 
+import '../../solver/reactions.dart';
 import 'beam_painter_beam.dart';
 import 'beam_painter_dimensions.dart';
 import 'beam_painter_loads.dart';
+import 'beam_painter_reactions.dart';
 import 'beam_painter_supports.dart';
 
 class BeamDiagram extends StatelessWidget {
@@ -22,6 +24,7 @@ class BeamDiagram extends StatelessWidget {
 
     final afficherValeursCharges = settings.afficherValeursCharges;
     final afficherCotations = settings.afficherCotations;
+    final afficherReactions = settings.afficherReactions;
     return Container(
       width: double.infinity,
       height: double.infinity,
@@ -32,7 +35,7 @@ class BeamDiagram extends StatelessWidget {
       child: AspectRatio(
         aspectRatio: 1.8,
         child: CustomPaint(
-          painter: BeamPainter(beam, afficherValeursCharges, afficherCotations),
+          painter: BeamPainter(beam, afficherValeursCharges, afficherCotations, afficherReactions: afficherReactions),
         ),
       ),
     );
@@ -43,35 +46,79 @@ class BeamPainter extends CustomPainter {
   final Beam beam;
   final bool afficherValeursCharges;
   final bool afficherCotations;
+  final bool afficherReactions;
 
-  BeamPainter(this.beam, this.afficherValeursCharges, this.afficherCotations);
+  BeamPainter(this.beam, this.afficherValeursCharges, this.afficherCotations, {required this.afficherReactions});
 
   @override
   void paint(Canvas canvas, Size size) {
     final length = beam.beamLenght;
+
     if (length <= 0) {
       return;
     }
 
     const leftMargin = 35.0;
     const rightMargin = 35.0;
+
     final drawingWidth = size.width - leftMargin - rightMargin;
+
     final beamY = size.height * 0.58;
+
+    // ═══════════════════════════════════════
+    // CONVERSION POSITION RÉELLE → PIXELS
+    // ═══════════════════════════════════════
 
     double xFromPosition(double position) {
       final clamped = position.clamp(0.0, length);
+
       return leftMargin + (clamped / length) * drawingWidth;
     }
 
+    // ═══════════════════════════════════════
+    // POUTRE
+    // ═══════════════════════════════════════
+
     drawBeam(canvas, xFromPosition(0), xFromPosition(length), beamY);
+
+    // ═══════════════════════════════════════
+    // APPUIS
+    // ═══════════════════════════════════════
 
     for (final support in beam.supports) {
       drawSupport(canvas, support, xFromPosition(support.position), beamY);
     }
 
+    // ═══════════════════════════════════════
+    // CHARGES
+    // ═══════════════════════════════════════
+
     for (final load in beam.loads) {
       drawLoad(canvas, load, xFromPosition, beamY, afficherValeursCharges);
     }
+
+    // ═══════════════════════════════════════
+    // RÉACTIONS
+    // ═══════════════════════════════════════
+    if (afficherReactions) {
+      
+    final reactions = calculateReactions(beam);
+    final middleX = leftMargin + drawingWidth / 2; 
+
+    BeamPainterReactions.drawReactions(
+      canvas: canvas,
+      supports: beam.supports,
+      beamY: beamY,
+      positionToCanvasX: xFromPosition,
+      verticalReactions: reactions.verticalReactions,
+      momentReaction: reactions.mA,
+      middleX: middleX, 
+    );
+    }
+
+    // ═══════════════════════════════════════
+    // COTATIONS
+    // ═══════════════════════════════════════
 
     if (afficherCotations) {
       drawDimension(
@@ -81,12 +128,15 @@ class BeamPainter extends CustomPainter {
         beamY,
         length,
       );
+
       final dimensionPositions = <double>[];
 
+      // Positions des appuis
       for (final support in beam.supports) {
         dimensionPositions.add(support.position);
       }
 
+      // Positions des charges
       for (final load in beam.loads) {
         dimensionPositions.add(load.position);
 
@@ -94,6 +144,7 @@ class BeamPainter extends CustomPainter {
           dimensionPositions.add(load.positionEnd);
         }
       }
+
       drawChainDimensions(
         canvas,
         xFromPosition,

@@ -6,6 +6,8 @@ import 'package:roadly/pages/modules/ponts/beam_editor_vpro/widgets/sheets/suppo
 import 'package:roadly/pages/modules/ponts/beam_editor_vpro/widgets/tab_widgets/pro_card.dart';
 import 'package:roadly/pages/modules/ponts/beam_editor_vpro/widgets/tab_widgets/pro_tab_scaffold.dart';
 
+import '../../solver/reactions.dart';
+
 class SupportsTab extends StatelessWidget {
   final Beam beam;
   final VoidCallback onBeamChanged;
@@ -18,6 +20,7 @@ class SupportsTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final reactions = calculateReactions(beam);
     return ProTabScaffold(
       title: "Appuis",
 
@@ -151,7 +154,7 @@ class SupportsTab extends StatelessWidget {
                   // ─────────────────────────────
                   child: GestureDetector(
                     onTap: () => _editSupport(context, support),
-                    child: _SupportCard(support: support),
+                    child: _SupportCard(support: support, reactions: reactions),
                   ),
                 );
               },
@@ -212,8 +215,9 @@ class SupportsTab extends StatelessWidget {
 
 class _SupportCard extends StatelessWidget {
   final Support support;
+  final ReactionResult reactions;
 
-  const _SupportCard({required this.support});
+  const _SupportCard({required this.support, required this.reactions});
 
   @override
   Widget build(BuildContext context) {
@@ -246,6 +250,10 @@ class _SupportCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                _reactionText(),
+
+                const SizedBox(height: 4),
+
                 Text(
                   supportLabel(support),
                   style: const TextStyle(
@@ -314,5 +322,22 @@ class _SupportCard extends StatelessWidget {
       case SupportType.encastrement_:
         return Icons.view_sidebar_rounded;
     }
+  }
+
+  Widget _reactionText() {
+    final reaction = reactions.getReaction(support.id);
+
+    if (reaction == null) {
+      return const SizedBox.shrink();
+    }
+
+    return Text(
+      "Ry = ${reaction.toStringAsFixed(2)} kN",
+      style: const TextStyle(
+        fontSize: 11,
+        fontWeight: FontWeight.w600,
+        color: Color(0xFF16A34A),
+      ),
+    );
   }
 }
