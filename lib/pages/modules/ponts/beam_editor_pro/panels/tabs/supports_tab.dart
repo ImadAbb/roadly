@@ -6,7 +6,8 @@ import 'package:roadly/pages/modules/ponts/beam_editor_pro/sheets/support_editor
 import 'package:roadly/pages/modules/ponts/beam_editor_pro/widgets/tab_widgets/pro_card.dart';
 import 'package:roadly/pages/modules/ponts/beam_editor_pro/widgets/tab_widgets/pro_tab_scaffold.dart';
 
-import '../../domain/calculations/reactions.dart';
+import '../../domain/calculations/reactions/reaction_calculator.dart';
+import '../../domain/calculations/reactions/reaction_classes.dart';
 
 class SupportsTab extends StatelessWidget {
   final Beam beam;

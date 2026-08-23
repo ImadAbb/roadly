@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:roadly/pages/modules/ponts/beam_editor_pro/domain/models/beam.dart';
-import 'package:roadly/pages/modules/ponts/beam_editor_pro/domain/calculations/hyperstaticity.dart';
+import 'package:roadly/pages/modules/ponts/beam_editor_pro/domain/calculations/common/hyperstaticity.dart';
 import 'package:roadly/pages/modules/ponts/beam_editor_pro/widgets/tab_widgets/pro_card.dart';
 import 'package:roadly/pages/modules/ponts/beam_editor_pro/widgets/tab_widgets/pro_info_row.dart';
 import 'package:roadly/pages/modules/ponts/beam_editor_pro/widgets/tab_widgets/pro_tab_scaffold.dart';

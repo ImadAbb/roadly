@@ -1,5 +1,5 @@
-import '../models/beam.dart';
-import '../models/support.dart';
+import '../../models/beam.dart';
+import '../../models/support.dart';
 
 int calculateDegreeOfHyperstaticity(Beam beam) {
   final externalUnknowns = _countExternalSupportUnknowns(beam);

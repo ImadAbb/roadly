@@ -6,7 +6,7 @@ import 'package:roadly/pages/modules/ponts/beam_editor_pro/domain/models/beam.da
 import 'package:roadly/pages/modules/ponts/beam_editor_pro/domain/models/load.dart';
 import 'package:roadly/pages/modules/ponts/beam_editor_pro/state/interface_settings_provider.dart';
 
-import '../domain/calculations/reactions.dart';
+import '../domain/calculations/reactions/reaction_calculator.dart';
 import 'painters/beam_painter_beam.dart';
 import 'painters/beam_painter_dimensions.dart';
 import 'painters/beam_painter_loads.dart';
