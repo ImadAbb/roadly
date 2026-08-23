@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:roadly/pages/modules/ponts/beam_editor_v1/ponts_main.dart';
 import 'package:roadly/pages/modules/ponts/beam_editor_v4/beam_editor_screen.dart';
-import 'package:roadly/pages/modules/ponts/beam_editor_vpro/beam_editor_screen.dart';
+import 'package:roadly/pages/modules/ponts/beam_editor_pro/beam_editor_screen.dart';
 
 class ChooseBeta extends StatelessWidget {
   const ChooseBeta({super.key});
