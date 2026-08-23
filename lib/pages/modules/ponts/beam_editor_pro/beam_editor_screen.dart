@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:roadly/pages/modules/ponts/beam_editor_pro/canvas/beam_diagram.dart';
-import 'package:roadly/pages/modules/ponts/beam_editor_pro/core/models/beam_classes.dart';
+import 'package:roadly/pages/modules/ponts/beam_editor_pro/domain/models/beam.dart';
 import 'package:roadly/pages/modules/ponts/beam_editor_pro/panels/settings/pro_settings.dart';
 import 'package:roadly/pages/modules/ponts/beam_editor_pro/panels/tabs/pro_tabs.dart';
 
@@ -20,7 +20,7 @@ class _BeamEditorProState extends State<BeamEditorPro> {
   @override
   void initState() {
     super.initState();
-    beam = Beam(beamLenght: 10.00);
+    beam = Beam(beamLength: 10.00);
   }
 
   void _onBeamChanged() {

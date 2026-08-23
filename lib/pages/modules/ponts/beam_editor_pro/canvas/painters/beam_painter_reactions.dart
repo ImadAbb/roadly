@@ -1,7 +1,7 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
-import '../../core/models/support_classes.dart';
+import '../../domain/models/support.dart';
 import '../../theme/beam_painter_colors.dart';
 
 class BeamPainterReactions {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:roadly/pages/modules/ponts/beam_editor_pro/core/models/beam_classes.dart';
+import 'package:roadly/pages/modules/ponts/beam_editor_pro/domain/models/beam.dart';
 
 import 'sections/interface_settings.dart';
 import 'sections/profile_settings.dart';

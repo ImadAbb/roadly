@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:roadly/pages/modules/ponts/beam_editor_pro/core/models/beam_classes.dart';
-import 'package:roadly/pages/modules/ponts/beam_editor_pro/core/models/load_classes.dart';
-import 'package:roadly/pages/modules/ponts/beam_editor_pro/core/models/support_classes.dart';
+import 'package:roadly/pages/modules/ponts/beam_editor_pro/domain/models/beam.dart';
+import 'package:roadly/pages/modules/ponts/beam_editor_pro/domain/models/load.dart';
+import 'package:roadly/pages/modules/ponts/beam_editor_pro/domain/models/support.dart';
 import 'package:roadly/pages/modules/ponts/beam_editor_pro/widgets/settings_widgets/profile_option.dart';
 
 import 'package:roadly/pages/modules/ponts/beam_editor_pro/widgets/settings_widgets/section_title.dart';
@@ -93,7 +93,7 @@ class ProfileSettings extends StatelessWidget {
 
   void loadFullBeam() {
     clearBeamData();
-    beam.beamLenght = 10;
+    beam.beamLength = 10;
 
     beam.addSupport(
       Support(id: "support_left", position: 0, type: SupportType.double_),
@@ -104,7 +104,7 @@ class ProfileSettings extends StatelessWidget {
     );
 
     beam.addSupport(
-      Support(id: "support_super", position: beam.beamLenght, type: SupportType.encastrement_, isEncastrementRightSide: true),
+      Support(id: "support_super", position: beam.beamLength, type: SupportType.encastrement_, isEncastrementRightSide: true),
     );
 
     beam.addSupport(
@@ -121,7 +121,7 @@ class ProfileSettings extends StatelessWidget {
   }
 
   void clearBeam() {
-    beam.beamLenght = 10;
+    beam.beamLength = 10;
 
     clearBeamData();
 

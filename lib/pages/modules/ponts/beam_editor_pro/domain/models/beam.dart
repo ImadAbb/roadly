@@ -1,17 +1,17 @@
-import 'package:roadly/pages/modules/ponts/beam_editor_pro/core/models/load_classes.dart';
-import 'package:roadly/pages/modules/ponts/beam_editor_pro/core/models/support_classes.dart';
+import 'package:roadly/pages/modules/ponts/beam_editor_pro/domain/models/load.dart';
+import 'package:roadly/pages/modules/ponts/beam_editor_pro/domain/models/support.dart';
 
 class Beam {
-  double beamLenght;
+  double beamLength;
   final List<Support> supports;
   final List<Load> loads;
 
-  Beam({required this.beamLenght, List<Support>? supports, List<Load>? loads})
+  Beam({required this.beamLength, List<Support>? supports, List<Load>? loads})
     : supports = supports ?? [],
       loads = loads ?? [];
       
   void updateBeamLength(double newLength) {
-    beamLenght = newLength;
+    beamLength = newLength;
 
     for (var i = 0; i < supports.length; i++) {
       final support = supports[i];

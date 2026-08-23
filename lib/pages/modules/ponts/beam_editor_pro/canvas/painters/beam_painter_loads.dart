@@ -1,6 +1,6 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
-import 'package:roadly/pages/modules/ponts/beam_editor_pro/core/models/load_classes.dart';
+import 'package:roadly/pages/modules/ponts/beam_editor_pro/domain/models/load.dart';
 import '../../theme/beam_painter_colors.dart';
 
 void drawLoad(

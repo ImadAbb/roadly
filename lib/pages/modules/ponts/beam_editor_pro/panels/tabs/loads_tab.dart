@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:roadly/pages/modules/ponts/beam_editor_pro/core/models/beam_classes.dart';
-import 'package:roadly/pages/modules/ponts/beam_editor_pro/core/models/load_classes.dart';
+import 'package:roadly/pages/modules/ponts/beam_editor_pro/domain/models/beam.dart';
+import 'package:roadly/pages/modules/ponts/beam_editor_pro/domain/models/load.dart';
 import 'package:roadly/pages/modules/ponts/beam_editor_pro/sheets/load_editor_sheet.dart';
 import 'package:roadly/pages/modules/ponts/beam_editor_pro/widgets/tab_widgets/pro_card.dart';
 import 'package:roadly/pages/modules/ponts/beam_editor_pro/widgets/tab_widgets/pro_tab_scaffold.dart';
@@ -38,7 +38,7 @@ class LoadsTab extends StatelessWidget {
               ),
             ),
             builder: (_) => LoadEditorSheet(
-              beamLength: beam.beamLenght,
+              beamLength: beam.beamLength,
             ),
           );
 
@@ -95,7 +95,7 @@ class LoadsTab extends StatelessWidget {
                       ),
                       builder: (_) => LoadEditorSheet(
                         load: load,
-                        beamLength: beam.beamLenght,
+                        beamLength: beam.beamLength,
                       ),
                     );
 

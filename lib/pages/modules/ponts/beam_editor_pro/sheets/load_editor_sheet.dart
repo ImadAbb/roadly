@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:roadly/pages/modules/ponts/beam_editor_pro/core/models/load_classes.dart';
+import 'package:roadly/pages/modules/ponts/beam_editor_pro/domain/models/load.dart';
 
 class LoadEditorSheet extends StatefulWidget {
   final Load? load;

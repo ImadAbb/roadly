@@ -1,6 +1,6 @@
-import '../models/beam_classes.dart';
-import '../models/load_classes.dart';
-import '../models/support_classes.dart';
+import '../models/beam.dart';
+import '../models/load.dart';
+import '../models/support.dart';
 import 'hyperstaticity.dart';
 
 /// Résultat du calcul des réactions d'appui.

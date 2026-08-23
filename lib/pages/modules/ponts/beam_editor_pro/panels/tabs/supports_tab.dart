@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-import 'package:roadly/pages/modules/ponts/beam_editor_pro/core/models/beam_classes.dart';
-import 'package:roadly/pages/modules/ponts/beam_editor_pro/core/models/support_classes.dart';
+import 'package:roadly/pages/modules/ponts/beam_editor_pro/domain/models/beam.dart';
+import 'package:roadly/pages/modules/ponts/beam_editor_pro/domain/models/support.dart';
 import 'package:roadly/pages/modules/ponts/beam_editor_pro/sheets/support_editor_sheet.dart';
 import 'package:roadly/pages/modules/ponts/beam_editor_pro/widgets/tab_widgets/pro_card.dart';
 import 'package:roadly/pages/modules/ponts/beam_editor_pro/widgets/tab_widgets/pro_tab_scaffold.dart';
 
-import '../../core/calculations/reactions.dart';
+import '../../domain/calculations/reactions.dart';
 
 class SupportsTab extends StatelessWidget {
   final Beam beam;
@@ -175,7 +175,7 @@ class SupportsTab extends StatelessWidget {
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
-      builder: (_) => SupportEditorSheet(beamLength: beam.beamLenght),
+      builder: (_) => SupportEditorSheet(beamLength: beam.beamLength),
     );
 
     if (result == null) return;
@@ -198,7 +198,7 @@ class SupportsTab extends StatelessWidget {
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (_) =>
-          SupportEditorSheet(support: support, beamLength: beam.beamLenght),
+          SupportEditorSheet(support: support, beamLength: beam.beamLength),
     );
 
     if (result == null) return;

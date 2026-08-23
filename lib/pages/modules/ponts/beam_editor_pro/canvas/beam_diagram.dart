@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:roadly/pages/modules/ponts/beam_editor_pro/canvas/painters/beam_painter_chain_dimensions.dart';
 
-import 'package:roadly/pages/modules/ponts/beam_editor_pro/core/models/beam_classes.dart';
-import 'package:roadly/pages/modules/ponts/beam_editor_pro/core/models/load_classes.dart';
+import 'package:roadly/pages/modules/ponts/beam_editor_pro/domain/models/beam.dart';
+import 'package:roadly/pages/modules/ponts/beam_editor_pro/domain/models/load.dart';
 import 'package:roadly/pages/modules/ponts/beam_editor_pro/state/interface_settings_provider.dart';
 
-import '../core/calculations/reactions.dart';
+import '../domain/calculations/reactions.dart';
 import 'painters/beam_painter_beam.dart';
 import 'painters/beam_painter_dimensions.dart';
 import 'painters/beam_painter_loads.dart';
@@ -52,7 +52,7 @@ class BeamPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final length = beam.beamLenght;
+    final length = beam.beamLength;
 
     if (length <= 0) {
       return;
