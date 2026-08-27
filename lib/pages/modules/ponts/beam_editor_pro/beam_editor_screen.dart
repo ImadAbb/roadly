@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:roadly/pages/modules/ponts/beam_editor_pro/canvas/beam_diagram.dart';
 import 'package:roadly/pages/modules/ponts/beam_editor_pro/domain/models/beam.dart';
 import 'package:roadly/pages/modules/ponts/beam_editor_pro/panels/settings/pro_settings.dart';
 import 'package:roadly/pages/modules/ponts/beam_editor_pro/panels/tabs/pro_tabs.dart';
 
 import 'package:roadly/pages/modules/ponts/beam_editor_pro/state/interface_settings_provider.dart';
+
+import 'panels/diagram/diagram_view.dart';
 
 class BeamEditorPro extends StatefulWidget {
   const BeamEditorPro({super.key});
@@ -89,10 +90,23 @@ class _BeamEditorProState extends State<BeamEditorPro> {
               child: ProTabs(beam: beam, onBeamChanged: _onBeamChanged),
             ),
 
-            Expanded(flex: 70, child: BeamDiagram(beam: beam)),
+            _buildSeparator(),
+
+            Expanded(
+              flex: 70, 
+              child: DiagramView(beam: beam)
+            ),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildSeparator () {
+    return Container(
+      width: 1,
+      height: double.infinity,
+      color: Colors.black,
     );
   }
 }
