@@ -38,33 +38,31 @@ L'accueil présente également des entrées pour l'hydraulique et les structures
 
 ### Accueil
 
-![Écran d'accueil](screeshots/pageaccuille.png)
+![Écran d'accueil](screenshots/pageaccuille.png)
 
 ### Dimensionnement des chaussées
 
 | Méthode CBR | Asphalt Institute |
 |---|---|
-| ![Formulaire de dimensionnement CBR](screeshots/CBR.png) | ![Formulaire Asphalt Institute](screeshots/asphaltinstitute.png) |
+| ![Formulaire de dimensionnement CBR](screenshots/CBR.png) | ![Formulaire Asphalt Institute](screenshots/asphaltinstitute.png) |
 
 ### Éditeur de poutre
 
 | Éditeur — vue 1 | Éditeur — vue 2 |
 |---|---|
-| ![Éditeur de poutre, vue 1](screeshots/editeurpoutre1.png) | ![Éditeur de poutre, vue 2](screeshots/editeurpoutre2.png) |
+| ![Éditeur de poutre, vue 1](screenshots/editeurpoutre1.png) | ![Éditeur de poutre, vue 2](screenshots/editeurpoutre2.png) |
 
 ### Informations et crédits
 
-![Informations et crédits](screeshots/credit%26info.png)
+![Informations et crédits](screenshots/credit%26info.png)
 
-## Générer et télécharger l'APK Android
+## Télécharger l'application
 
-Le workflow **Build Android APK** s'exécute automatiquement à chaque push sur la branche `main`. Il peut aussi être lancé manuellement depuis GitHub :
+Pour publier les fichiers d'installation, créez et publiez une release GitHub. Les workflows **Build Android APK** et **Build Unsigned iOS IPA** construiront alors l'application et ajouteront `app-release.apk` et `UnsignedApp.ipa` aux fichiers de cette release.
 
-1. Ouvrez l'onglet **Actions** du dépôt.
-2. Sélectionnez **Build Android APK**, puis **Run workflow**.
-3. Une fois l'exécution terminée, ouvrez-la et téléchargez l'artefact **roadly-android-apk**.
+Dans l'onglet **Releases** du dépôt, ouvrez la release souhaitée et téléchargez le fichier correspondant à votre appareil. Les builds peuvent aussi être téléchargés depuis les artefacts de chaque exécution dans l'onglet **Actions**.
 
-L'artefact contient `app-release.apk`. Cette version est signée avec la clé de debug et est destinée aux tests.
+L'APK est signé avec la clé de debug et destiné aux tests. Pour installer l'IPA sur un appareil iOS, il faut d'abord le signer avec un certificat et un profil de provisioning valides. L'IPA fourni dans la release n'est pas signé.
 
 ## Technologies et lancement local
 
