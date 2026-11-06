@@ -58,9 +58,9 @@ L'accueil présente également des entrées pour l'hydraulique et les structures
 
 ## Télécharger l'application
 
-Pour publier les fichiers d'installation, créez et publiez une release GitHub. Les workflows **Build Android APK** et **Build Unsigned iOS IPA** construiront alors l'application et ajouteront `app-release.apk` et `UnsignedApp.ipa` aux fichiers de cette release.
+À chaque push sur la branche `main`, le workflow construit les versions Android et iOS, puis crée ou met à jour la release roulante **Latest build** avec `app-release.apk` et `UnsignedApp.ipa`. Si un build échoue, la release précédente reste disponible.
 
-Dans l'onglet **Releases** du dépôt, ouvrez la release souhaitée et téléchargez le fichier correspondant à votre appareil. Les builds peuvent aussi être téléchargés depuis les artefacts de chaque exécution dans l'onglet **Actions**.
+Consultez les [releases de Roadly](https://github.com/ImadAbb/roadly/releases) et téléchargez le fichier correspondant à votre appareil. Les builds peuvent aussi être téléchargés depuis les artefacts de chaque exécution dans l'onglet **Actions**.
 
 L'APK est signé avec la clé de debug et destiné aux tests. Pour installer l'IPA sur un appareil iOS, il faut d'abord le signer avec un certificat et un profil de provisioning valides. L'IPA fourni dans la release n'est pas signé.
 
